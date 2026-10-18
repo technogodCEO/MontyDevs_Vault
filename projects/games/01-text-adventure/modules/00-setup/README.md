@@ -6,7 +6,7 @@ This takes 15–30 minutes the first time. If you've already done another Python
 
 ## 1. Install Python
 
-Follow [Installing Python](../../../../guides/installing-python.md) for your computer, then check it worked by opening a terminal and running:
+Follow [Installing Python](../../../../../guides/installing-python.md) for your computer, then check it worked by opening a terminal and running:
 
 ```sh
 python --version
@@ -16,11 +16,11 @@ You need **3.9 or newer**.
 
 > **macOS and Linux:** type `python3` everywhere this project says `python`. On Windows, `py` works too.
 
-New to the terminal? Read [Terminal basics](../../../../guides/terminal-basics.md) first. It's short.
+New to the terminal? Read [Terminal basics](../../../../../guides/terminal-basics.md) first. It's short.
 
 ## 2. Install a code editor
 
-Follow [Setting up VS Code](../../../../guides/vs-code.md), including the Python extension. Any editor works, but these instructions assume VS Code.
+Follow [Setting up VS Code](../../../../../guides/vs-code.md), including the Python extension. Any editor works, but these instructions assume VS Code.
 
 ## 3. Get the vault
 
@@ -30,7 +30,7 @@ You need a copy of the vault on your computer for this project's `check.py` and 
   ```sh
   git clone https://github.com/technogodCEO/MontyDevs_Vault.git
   ```
-  Later, `git pull` inside that folder gets any updates. See [Git and GitHub basics](../../../../guides/git-and-github.md) if you haven't installed Git.
+  Later, `git pull` inside that folder gets any updates. See [Git and GitHub basics](../../../../../guides/git-and-github.md) if you haven't installed Git.
 - **Without Git:** on the vault's GitHub page, click **Code → Download ZIP**, then unzip it somewhere you'll find it again.
 
 ## 4. Make your game folder
@@ -38,7 +38,7 @@ You need a copy of the vault on your computer for this project's `check.py` and 
 Make a new folder for **your** game, **outside** the vault, for example `my-adventure` next to `MontyDevs_Vault`:
 
 ```
-Projects/
+Code/
 ├── MontyDevs_Vault/        # the tutorials (don't put your code in here)
 └── my-adventure/           # your game
     ├── adventure.py
@@ -47,14 +47,14 @@ Projects/
 
 Keeping your code separate means updating the vault never touches your work.
 
-Copy `check.py` from `MontyDevs_Vault/games/01-text-adventure/` into `my-adventure/`. You can drag it across in your file explorer, or run this from the `Projects` folder:
+Copy `check.py` from `MontyDevs_Vault/projects/games/01-text-adventure/` into `my-adventure/`. You can drag it across in your file explorer, or run this from the `Code` folder:
 
 ```sh
 # Windows (PowerShell)
-Copy-Item MontyDevs_Vault\games\01-text-adventure\check.py my-adventure\
+Copy-Item MontyDevs_Vault\projects\games\01-text-adventure\check.py my-adventure\
 
 # macOS / Linux
-cp MontyDevs_Vault/games/01-text-adventure/check.py my-adventure/
+cp MontyDevs_Vault/projects/games/01-text-adventure/check.py my-adventure/
 ```
 
 ## 5. Create `adventure.py`
@@ -100,11 +100,11 @@ python check.py 0
 
 ## Optional: track your game with Git
 
-Run `git init` inside `my-adventure` and commit at the end of each module, so you can always go back to a version that worked. [Git and GitHub basics](../../../../guides/git-and-github.md) walks you through it, including putting your finished game on GitHub.
+Run `git init` inside `my-adventure` and commit at the end of each module, so you can always go back to a version that worked. [Git and GitHub basics](../../../../../guides/git-and-github.md) walks you through it, including putting your finished game on GitHub.
 
 ## Stuck?
 
-- **`python: command not found`, `'python' is not recognized`, or the Microsoft Store opens**: see the troubleshooting section of [Installing Python](../../../../guides/installing-python.md).
+- **`python: command not found`, `'python' is not recognized`, or the Microsoft Store opens**: see the troubleshooting section of [Installing Python](../../../../../guides/installing-python.md).
 - **`can't open file 'adventure.py'`** or **`No such file or directory`**: your terminal is in a different folder. Run `pwd` to see where you are, then `cd` into `my-adventure`. (Opening the folder in VS Code and using its terminal avoids this.)
 - **`Couldn't find .../adventure.py`** from `check.py`: the file is misnamed or in another folder. It must be called exactly `adventure.py` (watch out for `adventure.py.txt` on Windows, where file extensions may be hidden).
 - **`IndentationError`**: the `print` line must be indented 4 spaces under `def main():`, and `main()` 4 spaces under the `if` line.

@@ -4,11 +4,11 @@ Thanks for helping build the vault! This guide explains how to add a new project
 
 ## Adding a new project
 
-1. **Pick a topic folder** (for example `games/`). If none fits, create a new one in `kebab-case` with its own `README.md`, and add it to the topic table in the main README.
+1. **Pick a topic folder** (for example `projects/games/`). If none fits, create a new one inside `projects/` in `kebab-case` with its own `README.md`, and add it to the topic table in the main README.
 2. **Pick a difficulty**: Beginner, Intermediate, or Advanced. See [difficulty levels](README.md#difficulty-levels).
 3. **Copy the template**:
    ```sh
-   cp -r templates/project games/NN-your-project-name
+   cp -r templates/project projects/games/NN-your-project-name
    ```
    `NN` is a two-digit number that sets the project's place in the difficulty order for that topic (for example `03-text-adventure`). Renumber neighbours if you need to slot a project in between. Projects are standalone, so don't assume a learner has done any other project.
 4. **Fill in the project `README.md`**: goal, difficulty, language, prerequisites and the module list.
@@ -18,7 +18,7 @@ Thanks for helping build the vault! This guide explains how to add a new project
 8. **Add the project to its topic's `README.md`** in difficulty order, so people can find it.
 9. Open a pull request.
 
-[`games/01-text-adventure`](games/01-text-adventure/) is a complete example of every part of this guide.
+[`games/01-text-adventure`](projects/games/01-text-adventure/) is a complete example of every part of this guide.
 
 ## Learners work on their own
 

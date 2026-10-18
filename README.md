@@ -10,9 +10,9 @@ Projects are grouped by **topic**. Within each topic they're numbered from easie
 
 | Topic | What you'll build |
 | --- | --- |
-| [Games](games/) | Playable games, from terminal adventures to real-time graphics |
-| [Bots & Automation](bots-and-automation/) | Chat bots, scripts, and tools that talk to other services |
-| [Programming Languages](programming-languages/) | Interpreters and compilers, to learn how code really runs |
+| [Games](projects/games/) | Playable games, from terminal adventures to real-time graphics |
+| [Bots & Automation](projects/bots-and-automation/) | Chat bots, scripts, and tools that talk to other services |
+| [Programming Languages](projects/programming-languages/) | Interpreters and compilers, to learn how code really runs |
 
 More topics will be added as projects are written.
 
@@ -33,18 +33,19 @@ Each project uses whichever language suits it best, and its README says which on
 ## Anatomy of a project
 
 ```
-<topic>/
-└── 01-project-name/
-    ├── README.md              # Overview: goal, language, prerequisites, module list
-    ├── check.py               # Self-check: tells you when a module is done
-    └── modules/
-        ├── 00-setup/
-        │   └── README.md      # Install tools, get the vault, make your project folder
-        ├── 01-module-name/
-        │   ├── README.md      # The lesson: concepts, steps, Make it yours, Stuck?
-        │   └── solution/      # Beginner projects only: an example solution
-        └── 02-module-name/
-            └── ...
+projects/
+└── <topic>/
+    └── 01-project-name/
+        ├── README.md              # Overview: goal, language, prerequisites, module list
+        ├── check.py               # Self-check: tells you when a module is done
+        └── modules/
+            ├── 00-setup/
+            │   └── README.md      # Install tools, get the vault, make your project folder
+            ├── 01-module-name/
+            │   ├── README.md      # The lesson: concepts, steps, Make it yours, Stuck?
+            │   └── solution/      # Beginner projects only: an example solution
+            └── 02-module-name/
+                └── ...
 ```
 
 Every project starts with **Module 00: Setup**, which gets you from nothing installed to a project folder that runs. From there you keep building on your own code, one module after another.

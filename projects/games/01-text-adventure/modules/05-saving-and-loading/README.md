@@ -106,7 +106,7 @@ That's the whole game! Read your `adventure.py` from top to bottom and add comme
 
 - **Multiple save slots:** let `save` and `load` take a name, like `save before-boss`, and use it in the file name.
 - **Save anything else you've added**, such as a move counter, visited rooms or a score. Add it to the `data` dictionary and restore it in `load_game()`.
-- **Share it.** Send your `adventure.py` to a friend, or put it on GitHub (see [Git and GitHub basics](../../../../guides/git-and-github.md)).
+- **Share it.** Send your `adventure.py` to a friend, or put it on GitHub (see [Git and GitHub basics](../../../../../guides/git-and-github.md)).
 
 ## Check your work
 
@@ -140,4 +140,4 @@ The checker plays in a temporary folder, so it won't overwrite your own save fil
 
 You've built a complete text adventure: a game loop, a world, items, puzzles, a win condition and save files. Those same ideas, state and a loop that updates it, are at the core of almost every game.
 
-Want to keep going? See [Going further](../../README.md#going-further) for ideas, or pick another project from the [vault](../../../../README.md).
+Want to keep going? See [Going further](../../README.md#going-further) for ideas, or pick another project from the [vault](../../../../../README.md).
