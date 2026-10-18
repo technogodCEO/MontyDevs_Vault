@@ -28,4 +28,4 @@ Outside material that explains these concepts well. Say what the reader should t
 
 ## Next
 
-Continue to [Module 02: Next Module](../02-next-module/). (In a project's last module, link the next project instead.)
+Continue to [Module 02: Next Module](../02-next-module/). (In the project's last module, replace this with a wrap-up: what was built, and a link back to the project's "Going further" ideas.)

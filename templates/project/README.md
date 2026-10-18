@@ -16,10 +16,10 @@ A short description of the finished project. Add a screenshot or a sample termin
 - Concept 2
 - Concept 3
 
-## Before you start
+## Prerequisites
 
-- **Previous project:** [NN - Previous Project](../NN-previous-project/). This project assumes you've finished it. (For a level's first project, link the previous level's last project, or write "None".)
-- **New tools to install:** anything this project needs that earlier projects didn't, with links.
+- Skills you should already have
+- Tools to install (with links)
 
 ## Modules
 
@@ -27,12 +27,8 @@ A short description of the finished project. Add a screenshot or a sample termin
 | --- | --- | --- |
 | 01 | [Module Name](modules/01-module-name/) | One-line summary |
 
-Work through the modules in order. Each one continues from the code you wrote in the last.
+Work through the modules in order. Each one continues from the code you wrote in the last, so by the final module you've built the whole project.
 
 ## Going further
 
 Optional ideas for extending the project once all the modules are done.
-
-## Next
-
-Continue to [NN - Next Project](../NN-next-project/). (For a level's last project, link the next level's README.)

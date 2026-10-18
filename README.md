@@ -6,11 +6,9 @@ Think of it as a friendlier, more guided take on [build-your-own-x](https://gith
 
 ## How it's organized
 
-The vault is a **project-based course**, meant to be followed in order:
+Projects are grouped by **level**. Within each level they're numbered roughly from easiest to hardest. Pick any project that fits your level and interests: each one stands on its own.
 
-**Beginner → Intermediate → Advanced**. Inside each level, work through the projects in number order. Inside each project, work through the modules in number order.
-
-Each step builds on what came before. A project assumes you finished the projects ahead of it, and a module assumes you finished the modules ahead of it. If you already have experience, start at the level that fits you (see below), then go in order from there.
+Each project is its own **mini course**. Its modules are meant to be done in order, from `01` to the end, and each one builds on the code you wrote in the last.
 
 | Level | Who it's for |
 | --- | --- |
@@ -39,11 +37,11 @@ You keep building on your own code from one module to the next. Each module's `s
 
 ## How to use a tutorial
 
-1. Open your level's `README.md` and start with its first project you haven't done yet.
-2. Read the project's `README.md`, then open module `01`.
-3. Read the lesson and build it yourself in your own workspace. Only check `solution/` once you're done, or if you're truly stuck.
-4. Go on to the next module. Use its `starter/` only if you need to catch up.
-5. When you finish the last module, follow the link to the next project.
+1. Pick a project at your level and read its `README.md`.
+2. Open module `01` and copy its `starter/` code into your own workspace.
+3. Read the lesson and build it yourself. Only check `solution/` once you're done, or if you're truly stuck.
+4. Go on to the next module and keep working in the same code. Use that module's `starter/` only if you need to catch up.
+5. Repeat until you've finished the last module.
 
 ## Contributing
 
