@@ -4,16 +4,17 @@ Thanks for helping build the vault! This guide explains how to add a new project
 
 ## Adding a new project
 
-1. **Pick a level**: `beginner/`, `intermediate/`, or `advanced/`. See the main [README](README.md#how-its-organized) for what each level means.
-2. **Copy the template**:
+1. **Pick a topic folder** (for example `games/`). If none fits, create a new one in `kebab-case` with its own `README.md`, and add it to the topic table in the main README.
+2. **Pick a difficulty**: Beginner, Intermediate, or Advanced. See [difficulty levels](README.md#difficulty-levels).
+3. **Copy the template**:
    ```sh
-   cp -r templates/project beginner/NN-your-project-name
+   cp -r templates/project games/NN-your-project-name
    ```
-   `NN` is a two-digit number that sets the project's place in the difficulty order for that level (for example `03-text-adventure`). Renumber neighbours if you need to slot a project in between. Projects are standalone, so don't assume a learner has done any other project.
-3. **Fill in the project `README.md`**: goal, language, prerequisites and the module list.
-4. **Write the modules**: copy `modules/01-module-name/` once per module and rename each copy (`01-setup`, `02-game-loop`, ...).
-5. **Add the project to its level's `README.md`** in difficulty order, so people can find it.
-6. Open a pull request.
+   `NN` is a two-digit number that sets the project's place in the difficulty order for that topic (for example `03-text-adventure`). Renumber neighbours if you need to slot a project in between. Projects are standalone, so don't assume a learner has done any other project.
+4. **Fill in the project `README.md`**: goal, difficulty, language, prerequisites and the module list.
+5. **Write the modules**: copy `modules/01-module-name/` once per module and rename each copy (`01-setup`, `02-game-loop`, ...).
+6. **Add the project to its topic's `README.md`** in difficulty order, so people can find it.
+7. Open a pull request.
 
 ## Writing good modules
 

@@ -2,7 +2,7 @@
 
 > One-sentence pitch: what you'll build and why it's cool.
 
-**Level:** Beginner / Intermediate / Advanced
+**Difficulty:** Beginner / Intermediate / Advanced
 **Language:** _e.g. Python_ (and a sentence on why this language suits the project)
 **Estimated time:** _e.g. 4–6 hours across all modules_
 

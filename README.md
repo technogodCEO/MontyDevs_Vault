@@ -6,22 +6,34 @@ Think of it as a friendlier, more guided take on [build-your-own-x](https://gith
 
 ## How it's organized
 
-Projects are grouped by **level**. Within each level they're numbered roughly from easiest to hardest. Pick any project that fits your level and interests: each one stands on its own.
+Projects are grouped by **topic**. Within each topic they're numbered from easiest to hardest. Pick any project that fits your interests and level: each one stands on its own.
+
+| Topic | What you'll build |
+| --- | --- |
+| [Games](games/) | Playable games, from terminal adventures to real-time graphics |
+| [Bots & Automation](bots-and-automation/) | Chat bots, scripts, and tools that talk to other services |
+| [Programming Languages](programming-languages/) | Interpreters and compilers, to learn how code really runs |
+
+More topics will be added as projects are written.
 
 Each project is its own **mini course**. Its modules are meant to be done in order, from `01` to the end, and each one builds on the code you wrote in the last.
 
+### Difficulty levels
+
+Every project is labelled with one of three levels:
+
 | Level | Who it's for |
 | --- | --- |
-| [Beginner](beginner/) | You know the basics of one language (variables, loops, functions) and want to build your first complete project. |
-| [Intermediate](intermediate/) | You've built a few small programs and are ready for multiple files, data structures, APIs and testing. |
-| [Advanced](advanced/) | You're comfortable programming and want to dig into how systems really work: interpreters, networking, databases and more. |
+| Beginner | You know the basics of one language (variables, loops, functions) and want to build your first complete project. |
+| Intermediate | You've built a few small programs and are ready for multiple files, data structures, APIs and testing. |
+| Advanced | You're comfortable programming and want to dig into how systems really work: interpreters, networking, databases and more. |
 
 Each project uses whichever language suits it best, and its README says which one.
 
 ## Anatomy of a project
 
 ```
-<level>/
+<topic>/
 └── 01-project-name/
     ├── README.md              # Overview: goal, language, prerequisites, module list
     └── modules/
@@ -37,7 +49,7 @@ You keep building on your own code from one module to the next. Each module's `s
 
 ## How to use a tutorial
 
-1. Pick a project at your level and read its `README.md`.
+1. Pick a topic, then a project at your level, and read the project's `README.md`.
 2. Open module `01` and copy its `starter/` code into your own workspace.
 3. Read the lesson and build it yourself. Only check `solution/` once you're done, or if you're truly stuck.
 4. Go on to the next module and keep working in the same code. Use that module's `starter/` only if you need to catch up.
