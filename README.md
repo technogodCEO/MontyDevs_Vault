@@ -6,7 +6,11 @@ Think of it as a friendlier, more guided take on [build-your-own-x](https://gith
 
 ## How it's organized
 
-Projects are grouped by **level**. Within each level they're numbered roughly from easiest to hardest.
+The vault is a **project-based course**, meant to be followed in order:
+
+**Beginner → Intermediate → Advanced**. Inside each level, work through the projects in number order. Inside each project, work through the modules in number order.
+
+Each step builds on what came before. A project assumes you finished the projects ahead of it, and a module assumes you finished the modules ahead of it. If you already have experience, start at the level that fits you (see below), then go in order from there.
 
 | Level | Who it's for |
 | --- | --- |
@@ -31,14 +35,15 @@ Each project uses whichever language suits it best, and its README says which on
             └── ...
 ```
 
-Each module builds on the one before it, so its `starter/` code is roughly the previous module's `solution/`. You can jump in at any module and still have working code to start from.
+You keep building on your own code from one module to the next. Each module's `starter/` matches the previous module's `solution/`, so if your code is broken or you missed a session, copy `starter/` and carry on with the group.
 
 ## How to use a tutorial
 
-1. Pick a project at your level and read its `README.md`.
-2. Open the first module, read the lesson, and copy its `starter/` code into your own workspace.
-3. Build it yourself. Only check `solution/` once you're done, or if you're truly stuck.
-4. Move on to the next module.
+1. Open your level's `README.md` and start with its first project you haven't done yet.
+2. Read the project's `README.md`, then open module `01`.
+3. Read the lesson and build it yourself in your own workspace. Only check `solution/` once you're done, or if you're truly stuck.
+4. Go on to the next module. Use its `starter/` only if you need to catch up.
+5. When you finish the last module, follow the link to the next project.
 
 ## Contributing
 

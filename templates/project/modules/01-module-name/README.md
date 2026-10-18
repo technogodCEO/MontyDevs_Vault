@@ -8,9 +8,10 @@ Briefly explain the new ideas this module introduces, with small code snippets w
 
 ## Steps
 
-1. Copy the `starter/` code into your workspace.
-2. First step...
-3. Next step...
+Continue in your code from the previous module. (Fell behind? Copy this module's `starter/` and carry on from there. In module 01, `starter/` is where everyone begins.)
+
+1. First step...
+2. Next step...
 
 **Checkpoint:** How to tell it's working (expected output, a test to run, and so on).
 
@@ -27,4 +28,4 @@ Outside material that explains these concepts well. Say what the reader should t
 
 ## Next
 
-Continue to [Module 02: Next Module](../02-next-module/).
+Continue to [Module 02: Next Module](../02-next-module/). (In a project's last module, link the next project instead.)
