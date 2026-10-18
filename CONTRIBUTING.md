@@ -12,10 +12,11 @@ Thanks for helping build the vault! This guide explains how to add a new project
    ```
    `NN` is a two-digit number that sets the project's place in the difficulty order for that topic (for example `03-text-adventure`). Renumber neighbours if you need to slot a project in between. Projects are standalone, so don't assume a learner has done any other project.
 4. **Fill in the project `README.md`**: goal, difficulty, language, prerequisites and the module list.
-5. **Write the modules**: copy `modules/01-module-name/` once per module and rename each copy (`01-setup`, `02-game-loop`, ...).
-6. **Write a self-check** (see below) and remove `CHECK_GOES_HERE.md`.
-7. **Add the project to its topic's `README.md`** in difficulty order, so people can find it.
-8. Open a pull request.
+5. **Write Module 00** from `modules/00-setup/` (see [Module 00: Setup](#module-00-setup)).
+6. **Write the modules**: copy `modules/01-module-name/` once per module and rename each copy (`01-game-loop`, `02-rooms`, ...).
+7. **Write a self-check** (see below) and remove `CHECK_GOES_HERE.md`.
+8. **Add the project to its topic's `README.md`** in difficulty order, so people can find it.
+9. Open a pull request.
 
 [`games/01-text-adventure`](games/01-text-adventure/) is a complete example of every part of this guide.
 
@@ -38,8 +39,21 @@ How much a module hands over depends on the project's difficulty:
 | **Steps** | Show the code for each new idea, then have the learner write similar pieces themselves ("Your turn") | Describe what to build; show code only for unfamiliar APIs or tricky parts | Give a spec of the behaviour; the learner designs the code |
 | **Hints** | Inline, right where they're needed | In "Stuck?" | In "Stuck?" and in collapsible `<details>` blocks |
 | **Self-check** | Checks each feature, with detailed messages | Checks behaviour, with shorter messages | Checks the spec only, like an acceptance test |
+| **Solutions** | An example `solution/` in every module | None | None |
 
 Even at Beginner, a module is never a pure copy-paste: every module should have at least one **Your turn** step where the learner writes code they weren't shown.
+
+## Module 00: Setup
+
+Every project starts with a `00-setup` module that takes a learner from nothing installed to a project folder that runs. It should:
+
+- Link the [guides](guides/) for installing the language and editor, rather than repeating them, and say which version is needed.
+- Explain getting the vault (with `git clone`, or **Download ZIP**) and where to put the learner's own project folder: outside the vault, so updates never touch their work.
+- Have the learner create the project's first file themselves, and run it.
+- End by running the self-check with `0`, which confirms the setup works.
+- Say which steps can be skipped by someone who has already done a project in the same language.
+
+There are no `starter/` folders: Module 00 is where the learner's code begins.
 
 ## Leave room to personalize
 
@@ -53,25 +67,33 @@ Each learner should end up with a project that's recognisably *theirs*.
 
 - **The modules are a course.** A project's modules run in order from a blank start to the finished project. Each module adds one piece and assumes everything taught in the modules before it.
 - **One idea per module.** Each module should take a single sitting (roughly 30–90 minutes) and end with something that runs.
-- **Starter and solution must both run.** `starter/` is the point where the learner begins, and `solution/` is a finished, working reference.
-- **Chain the modules.** Learners keep working in their own code from module to module. A module's `starter/` must match the previous module's `solution/`, so anyone who falls behind can catch up.
+- **Chain the modules.** Learners keep working in their own code from module to module, starting from what they made in Module 00.
+- **Beginner solutions build on each other.** A module's `solution/` must run, pass that module's check, and build directly on the previous module's solution, so a learner who falls badly behind can copy it and carry on.
+- **Hide hints at Intermediate and Advanced.** With no solutions, put hints in collapsible blocks, from a gentle nudge to an almost complete answer:
+  ```html
+  <details><summary>Hint 1</summary>
+
+  Your hint here.
+
+  </details>
+  ```
 - **Comment the solution code.** Explain *why*, not just *what*. The solution is a teaching tool.
 - **Link outside resources on purpose.** If an article, video or doc already explains a concept well, link it in the module's "Resources" section and say what the reader should take from it.
 - **End with challenges.** Optional stretch goals give stronger students something extra without slowing everyone else down.
 
 ## Self-checks
 
-- Run with one command, from the learner's own project folder, taking the module number: e.g. `python check.py 3`.
+- Run with one command, from the learner's own project folder, taking the module number: e.g. `python check.py 3`. Module `0` checks the setup.
 - Check the given module **and every module before it**, so learners know nothing broke.
 - Print plain-ASCII results (`[PASS]`, `[NOT YET]`) so they display on every terminal.
 - Make failure messages say what to fix, in the learner's terms, not just that something failed.
-- Before opening a PR, confirm that each module's `solution/` passes its check and each module's `starter/` doesn't.
+- Before opening a PR, test the check against working and unfinished code for each module. For Beginner projects: each module's `solution/` should pass its check, and the previous module's solution should not.
 
 ## Naming conventions
 
 - Folders use `kebab-case` with a two-digit prefix that sets the order: `01-hello-world`.
 - Every project and every module has a `README.md`.
-- Reference code goes in `solution/` and starting code in `starter/`, inside each module.
+- Example code goes in `solution/` inside each module (Beginner projects only).
 
 ## Choosing a language
 

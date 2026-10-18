@@ -19,7 +19,7 @@ A short description of the finished project. Add a screenshot or a sample termin
 ## Prerequisites
 
 - Skills you should already have
-- Tools to install, linking to the [guides](../../guides/) where one exists
+- Anything else (installing tools is covered in Module 00)
 
 ## Make it yours
 
@@ -27,16 +27,16 @@ How learners personalize this project: what they choose (theme, features, design
 
 ## How to work through this project
 
-1. Where to put your own code (usually a new folder outside the vault).
-2. Which files to copy in to start (module 01's `starter/`, plus the self-check).
-3. Work through the modules **in order**. Each one continues from the code you wrote in the last, so by the end you've built the whole project.
-4. How to run the self-check at the end of each module.
-5. Fell behind? Copy that module's `starter/` and carry on.
+1. Start with [Module 00: Setup](modules/00-setup/).
+2. Work through the modules **in order**. Each one continues from the code you wrote in the last, so by the end you've built the whole project.
+3. How to run the self-check at the end of each module.
+4. Where to get help when stuck: each module's **Stuck?** section, its hints, and (Beginner only) its example `solution/`.
 
 ## Modules
 
 | # | Module | What you'll do |
 | --- | --- | --- |
+| 00 | [Setup](modules/00-setup/) | Install tools, get the vault, and make your project folder |
 | 01 | [Module Name](modules/01-module-name/) | One-line summary |
 
 ## Going further

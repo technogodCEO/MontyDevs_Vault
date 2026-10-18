@@ -22,7 +22,7 @@ A good puzzle gives the player a goal they can see (a locked door) before they h
 
 ## Steps
 
-Continue in your `adventure.py` from Module 03. (Fell behind? Copy this module's `starter/adventure.py` and carry on from there.)
+Continue in your `adventure.py` from Module 03. (Code badly broken, or skipped a module? Copy [Module 03's solution](../03-items-and-inventory/solution/adventure.py) into your folder and carry on from there.)
 
 1. **Plan the puzzle on your map.** Pick a goal room the player has to reach to win. Choose at least one exit to lock and which item opens it. Then trace a route on paper: start, find the item, reach the lock, reach the goal.
 

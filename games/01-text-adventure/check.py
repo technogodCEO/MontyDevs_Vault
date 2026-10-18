@@ -4,8 +4,10 @@ Self-check for the Text Adventure project.
 Run it from the folder that holds your adventure.py, and give it the module
 number you just finished:
 
-    python path/to/check.py 3
-    python path/to/check.py 3 my_other_file.py
+    python check.py 3
+    python check.py 3 my_other_file.py
+
+(Use 0 right after setup, in Module 00.)
 
 It checks that module and every module before it, so you know nothing broke.
 
@@ -184,6 +186,17 @@ def all_items(rooms):
 # ---------------------------------------------------------------------------
 # The checks, one function per module
 # ---------------------------------------------------------------------------
+def check_00(game_path):
+    # The checker runs your game with the same Python you ran it with.
+    if sys.version_info < (3, 9):
+        fail(f"You're using Python {sys.version.split()[0]}. This project needs 3.9 or newer.")
+    load_world(game_path)
+    if not run_game(game_path, ["quit"]).strip():
+        fail("adventure.py ran, but didn't print anything.")
+    print(f"  - Python {sys.version.split()[0]} works")
+    print("  - adventure.py runs, and loads without starting the game")
+
+
 def check_01(game_path):
     output = run_game(game_path, ["quit"])
     if not output.strip():
@@ -380,12 +393,12 @@ def check_05(game_path):
         print(f"  - 'load' puts you back in {key}, carrying the {item}")
 
 
-CHECKS = [check_01, check_02, check_03, check_04, check_05]
+CHECKS = [check_00, check_01, check_02, check_03, check_04, check_05]
 
 
 def main():
     args = sys.argv[1:]
-    if not args or not args[0].isdigit() or not 1 <= int(args[0]) <= len(CHECKS):
+    if not args or not args[0].isdigit() or not 0 <= int(args[0]) < len(CHECKS):
         print(__doc__)
         sys.exit(1)
     module = int(args[0])
@@ -396,10 +409,10 @@ def main():
         sys.exit(1)
 
     # Run every module's checks up to the one asked for.
-    for number in range(1, module + 1):
+    for number in range(module + 1):
         print(f"Module {number:02d}:")
         try:
-            CHECKS[number - 1](game_path)
+            CHECKS[number](game_path)
         except CheckFailed as problem:
             print(f"\n[NOT YET] {problem}")
             sys.exit(1)

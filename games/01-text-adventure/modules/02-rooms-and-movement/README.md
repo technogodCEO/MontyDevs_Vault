@@ -39,7 +39,7 @@ An f-string puts values straight into text: `f"You can't go {direction}."`. The 
 
 ## Steps
 
-Continue in your `adventure.py` from Module 01. (Fell behind? Copy this module's `starter/adventure.py` and carry on from there.)
+Continue in your `adventure.py` from Module 01. (Code badly broken, or skipped a module? Copy [Module 01's solution](../01-the-game-loop/solution/adventure.py) into your folder and carry on from there.)
 
 1. **Sketch your map on paper first.** Draw at least three boxes for rooms and connect them with lines labelled with directions. Give each room a short lowercase key, like `beach` or `throne_room`. Remember that most exits go both ways: if the kitchen's `north` leads to the hall, the hall should probably have a `south` back to the kitchen.
 

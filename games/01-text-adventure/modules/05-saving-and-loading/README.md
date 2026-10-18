@@ -51,7 +51,7 @@ Only the parts of the game that **change**. Room names, descriptions and exits a
 
 ## Steps
 
-Continue in your `adventure.py` from Module 04. (Fell behind? Copy this module's `starter/adventure.py` and carry on from there.)
+Continue in your `adventure.py` from Module 04. (Code badly broken, or skipped a module? Copy [Module 04's solution](../04-locks-and-winning/solution/adventure.py) into your folder and carry on from there.)
 
 1. **Import `json`.** At the very top of your file, add:
    ```python

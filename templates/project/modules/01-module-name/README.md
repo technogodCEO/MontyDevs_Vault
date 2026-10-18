@@ -8,7 +8,7 @@ Explain the new ideas this module introduces, with small code snippets where the
 
 ## Steps
 
-Continue in your code from the previous module. (Fell behind? Copy this module's `starter/` and carry on from there. In module 01, `starter/` is where everyone begins.)
+Continue in your code from the previous module. (Beginner projects only: if your code is badly broken, link the previous module's `solution/` here so the learner can copy it and carry on.)
 
 1. First step: say exactly what to change and what the learner should see when they run it.
 2. Next step...
@@ -27,6 +27,14 @@ How to run the self-check for this module, and what passing looks like.
 Common mistakes and the error messages they cause:
 
 - **`SomeError: message`**: what it usually means and how to fix it.
+
+For Intermediate and Advanced projects, add step-by-step hints in collapsible blocks:
+
+<details><summary>Hint 1</summary>
+
+A gentle nudge.
+
+</details>
 
 ## Resources
 

@@ -29,7 +29,7 @@ Contrast that with `current_room` in Module 02. It's a string, and assigning a n
 
 ## Steps
 
-Continue in your `adventure.py` from Module 02. (Fell behind? Copy this module's `starter/adventure.py` and carry on from there.)
+Continue in your `adventure.py` from Module 02. (Code badly broken, or skipped a module? Copy [Module 02's solution](../02-rooms-and-movement/solution/adventure.py) into your folder and carry on from there.)
 
 1. **Add items to your rooms.** Give **every** room an `"items"` list. Leave it empty (`[]`) where there's nothing:
    ```python

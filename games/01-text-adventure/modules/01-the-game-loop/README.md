@@ -37,15 +37,9 @@ So `input("> ").strip().lower()` turns all three of those into `"quit"`.
 
 ## Steps
 
-Make a folder for your game, for example `my-adventure`. Copy two files into it: `starter/adventure.py` from this module, and `check.py` from the [project folder](../../). Open your folder in your editor (see [Setting up VS Code](../../../../guides/vs-code.md)).
+Continue in the `adventure.py` you made in [Module 00](../00-setup/). Right now it prints `Hello, adventurer!` and stops. (Use `python3` instead of `python` on macOS or Linux.)
 
-1. **Run the starter.** In a terminal inside your folder, run:
-   ```sh
-   python adventure.py
-   ```
-   (Use `python3` on macOS or Linux; see [Installing Python](../../../../guides/installing-python.md).) It prints `Hello, adventurer!` and stops.
-
-2. **Write a welcome message.** Replace the `print("Hello, adventurer!")` line inside `main()` with your game's title and a line or two of story. For example:
+1. **Write a welcome message.** Replace the `print("Hello, adventurer!")` line inside `main()` with your game's title and a line or two of story. For example:
    ```python
    print("=== The Lighthouse ===")
    print("A storm is rolling in, and the old lighthouse has gone dark.")
@@ -53,7 +47,7 @@ Make a folder for your game, for example `my-adventure`. Copy two files into it:
    ```
    Don't copy this one. Write your own (see **Make it yours** below).
 
-3. **Add the loop.** Under your welcome message, still inside `main()` (indented by 4 spaces), add:
+2. **Add the loop.** Under your welcome message, still inside `main()` (indented by 4 spaces), add:
    ```python
    playing = True
    while playing:
@@ -67,15 +61,15 @@ Make a folder for your game, for example `my-adventure`. Copy two files into it:
    ```
    Run it. Type a few things, then `quit`.
 
-4. **Your turn: add `help`.** Add an `elif` branch between the `if` and the `else` so that typing `help` lists the commands the game understands (right now, `help` and `quit`). An `elif` looks like this:
+3. **Your turn: add `help`.** Add an `elif` branch between the `if` and the `else` so that typing `help` lists the commands the game understands (right now, `help` and `quit`). An `elif` looks like this:
    ```python
    elif command == "something":
        # what to do
    ```
 
-5. **Your turn: ignore empty input.** Right now, pressing Enter without typing anything prints "I don't understand that." Add another `elif` that checks for an empty string (`""`) and does nothing. (Hint: the keyword `continue` jumps straight back to the top of the loop.)
+4. **Your turn: ignore empty input.** Right now, pressing Enter without typing anything prints "I don't understand that." Add another `elif` that checks for an empty string (`""`) and does nothing. (Hint: the keyword `continue` jumps straight back to the top of the loop.)
 
-6. **Keep the bottom two lines.** The file must still end with:
+5. **Keep the bottom two lines.** The file must still end with:
    ```python
    if __name__ == "__main__":
        main()
@@ -105,7 +99,6 @@ python check.py 1
 - **`IndentationError` or `unexpected indent`**: Python uses indentation to know which lines belong inside the loop and the `if`. Everything inside `while playing:` needs 4 more spaces than the `while` line, and everything inside an `if` needs 4 more again. Don't mix tabs and spaces. VS Code's status bar shows which one you're using.
 - **The game never stops**: make sure your `quit` branch sets `playing = False` (two `=` signs would compare instead of set, so use one).
 - **Typing `QUIT` doesn't work**: check that you called `.lower()` on the input.
-- **`python: command not found`** (or the Microsoft Store opens): see [Installing Python](../../../../guides/installing-python.md).
 - **The checker says the game started when the file was loaded**: your code to start the game is outside `main()`. Put everything inside `def main():`, and keep the two `__name__` lines at the bottom.
 
 ## Resources

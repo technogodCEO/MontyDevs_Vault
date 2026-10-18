@@ -4,7 +4,7 @@
 
 **Difficulty:** Beginner
 **Language:** Python. It's beginner-friendly, needs nothing extra installed, and its dictionaries and lists map neatly onto rooms and items.
-**Estimated time:** 5–8 hours across all modules
+**Estimated time:** 5–8 hours across all modules, plus 15–30 minutes of setup
 
 ## What you'll build
 
@@ -45,9 +45,7 @@ That's the example world from the solutions. **Yours will be different.** You ch
 ## Prerequisites
 
 - You've written a little Python before and know what variables, `if` statements and functions are. You don't need to be confident with them yet.
-- Python 3 installed. See [Installing Python](../../guides/installing-python.md).
-- A code editor. See [Setting up VS Code](../../guides/vs-code.md).
-- Running a program from the terminal. See [Terminal basics](../../guides/terminal-basics.md).
+- A computer you can install software on. [Module 00](modules/00-setup/) walks you through installing everything else.
 
 ## Make it yours
 
@@ -57,19 +55,19 @@ The solutions are just one way to do it. The self-check doesn't look at your sto
 
 ## How to work through this project
 
-1. Make a folder for your game, for example `my-adventure`.
-2. Copy [`modules/01-the-game-loop/starter/adventure.py`](modules/01-the-game-loop/starter/adventure.py) and [`check.py`](check.py) into it.
-3. Work through the modules **in order**. Each one continues from the code you wrote in the last, so by the end you've built the whole game.
-4. At the end of each module, check your work from your game folder:
+1. Start with [Module 00: Setup](modules/00-setup/). It gets Python installed, the vault onto your computer, and your own game folder ready with `adventure.py` and [`check.py`](check.py).
+2. Work through the modules **in order**. Each one continues from the code you wrote in the last, so by the end you've built the whole game.
+3. At the end of each module, check your work from your game folder:
    ```sh
    python check.py 1      # use the module's number
    ```
-5. If your code gets badly broken, or you skipped a module, copy that module's `starter/adventure.py` and carry on. Peek at `solution/` only once you've tried yourself.
+4. Each module has an example `solution/`. Use it as a last resort, after the module's **Stuck?** section. If your code gets badly broken, you can copy the previous module's solution and carry on from there.
 
 ## Modules
 
 | # | Module | What you'll do |
 | --- | --- | --- |
+| 00 | [Setup](modules/00-setup/) | Install Python, get the vault, and make your game folder |
 | 01 | [The Game Loop](modules/01-the-game-loop/) | Greet the player and keep asking for commands until they quit |
 | 02 | [Rooms and Movement](modules/02-rooms-and-movement/) | Build a world of connected rooms and walk around it |
 | 03 | [Items and Inventory](modules/03-items-and-inventory/) | Fill rooms with items to take, drop and carry |

@@ -38,15 +38,18 @@ Each project uses whichever language suits it best, and its README says which on
     ├── README.md              # Overview: goal, language, prerequisites, module list
     ├── check.py               # Self-check: tells you when a module is done
     └── modules/
+        ├── 00-setup/
+        │   └── README.md      # Install tools, get the vault, make your project folder
         ├── 01-module-name/
         │   ├── README.md      # The lesson: concepts, steps, Make it yours, Stuck?
-        │   ├── starter/       # Code to begin this module with
-        │   └── solution/      # A commented reference solution
+        │   └── solution/      # Beginner projects only: an example solution
         └── 02-module-name/
             └── ...
 ```
 
-You keep building on your own code from one module to the next. Each module's `starter/` matches the previous module's `solution/`, so if your code gets badly broken, copy `starter/` and carry on.
+Every project starts with **Module 00: Setup**, which gets you from nothing installed to a project folder that runs. From there you keep building on your own code, one module after another.
+
+Beginner projects include an example `solution/` for each module, as a last resort when you're stuck. Intermediate and Advanced projects use hints you click to reveal instead, so you work out the code yourself.
 
 These are projects, not copy-paste exercises. Every module has a **Make it yours** section, and the solutions are one example among many. Your version should look like yours.
 
@@ -55,8 +58,8 @@ These are projects, not copy-paste exercises. Every module has a **Make it yours
 New to coding tools? Start with the [guides](guides/): installing Python, using the terminal, setting up VS Code, and Git.
 
 1. Pick a topic, then a project at your level, and read the project's `README.md`.
-2. Open module `01` and copy its `starter/` code into your own folder, along with the project's self-check.
-3. Read the lesson and build it yourself. Only look at `solution/` once you're done, or if you're truly stuck (try the module's **Stuck?** section first).
+2. Do **Module 00: Setup** to install what you need and make your own project folder.
+3. Read each lesson and build it yourself. If you get stuck, try the module's **Stuck?** section and hints first.
 4. Run the self-check. When it passes, go on to the next module and keep working in the same code.
 5. Repeat until you've finished the last module.
 
