@@ -1,19 +1,32 @@
 # Module 01: Module Name
 
-**Goal:** What works at the end of this module, in one sentence.
+**Goal:** what works at the end of this module, in one sentence.
 
 ## Concepts
 
-Briefly explain the new ideas this module introduces, with small code snippets where they help.
+Explain the new ideas this module introduces, with small code snippets where they help. How much to explain depends on the project's difficulty (see CONTRIBUTING.md).
 
 ## Steps
 
 Continue in your code from the previous module. (Fell behind? Copy this module's `starter/` and carry on from there. In module 01, `starter/` is where everyone begins.)
 
-1. First step...
+1. First step: say exactly what to change and what the learner should see when they run it.
 2. Next step...
+3. **Your turn:** a piece the learner writes without being shown the code, with a hint if needed.
 
-**Checkpoint:** How to tell it's working (expected output, a test to run, and so on).
+## Make it yours
+
+Choices the learner makes in this module that make the project their own: content, themes, design decisions, features to pick from.
+
+## Check your work
+
+How to run the self-check for this module, and what passing looks like.
+
+## Stuck?
+
+Common mistakes and the error messages they cause:
+
+- **`SomeError: message`**: what it usually means and how to fix it.
 
 ## Resources
 

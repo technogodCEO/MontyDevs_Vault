@@ -36,23 +36,28 @@ Each project uses whichever language suits it best, and its README says which on
 <topic>/
 └── 01-project-name/
     ├── README.md              # Overview: goal, language, prerequisites, module list
+    ├── check.py               # Self-check: tells you when a module is done
     └── modules/
         ├── 01-module-name/
-        │   ├── README.md      # The lesson: concepts, steps, outside resources
+        │   ├── README.md      # The lesson: concepts, steps, Make it yours, Stuck?
         │   ├── starter/       # Code to begin this module with
         │   └── solution/      # A commented reference solution
         └── 02-module-name/
             └── ...
 ```
 
-You keep building on your own code from one module to the next. Each module's `starter/` matches the previous module's `solution/`, so if your code is broken or you missed a session, copy `starter/` and carry on with the group.
+You keep building on your own code from one module to the next. Each module's `starter/` matches the previous module's `solution/`, so if your code gets badly broken, copy `starter/` and carry on.
+
+These are projects, not copy-paste exercises. Every module has a **Make it yours** section, and the solutions are one example among many. Your version should look like yours.
 
 ## How to use a tutorial
 
+New to coding tools? Start with the [guides](guides/): installing Python, using the terminal, setting up VS Code, and Git.
+
 1. Pick a topic, then a project at your level, and read the project's `README.md`.
-2. Open module `01` and copy its `starter/` code into your own workspace.
-3. Read the lesson and build it yourself. Only check `solution/` once you're done, or if you're truly stuck.
-4. Go on to the next module and keep working in the same code. Use that module's `starter/` only if you need to catch up.
+2. Open module `01` and copy its `starter/` code into your own folder, along with the project's self-check.
+3. Read the lesson and build it yourself. Only look at `solution/` once you're done, or if you're truly stuck (try the module's **Stuck?** section first).
+4. Run the self-check. When it passes, go on to the next module and keep working in the same code.
 5. Repeat until you've finished the last module.
 
 ## Contributing

@@ -1,0 +1,143 @@
+# Module 05: Saving and Loading
+
+**Goal:** a `save` command writes the player's progress to a file, and `load` brings it back, even after the game has been closed.
+
+## Concepts
+
+### Files
+
+Everything in your program disappears when it stops. To keep something, you write it to a file. Python's `with open(...)` opens a file and closes it again automatically:
+
+```python
+with open("notes.txt", "w") as file:    # "w" = write (replaces the file)
+    file.write("Hello!")
+
+with open("notes.txt") as file:         # no mode = read
+    text = file.read()
+```
+
+### JSON
+
+Files hold text, but your game state is lists and dictionaries. **JSON** is a text format that looks almost exactly like Python dictionaries and lists, and Python's `json` module converts between the two:
+
+```python
+import json
+
+data = {"room": "beach", "inventory": ["key"]}
+with open("save.json", "w") as file:
+    json.dump(data, file)               # Python -> file
+
+with open("save.json") as file:
+    data = json.load(file)              # file -> Python
+```
+
+Open `save.json` in your editor afterwards. It's readable text.
+
+### Handling errors with `try` and `except`
+
+If the player types `load` before ever saving, `open()` fails with a `FileNotFoundError` and the game crashes. `try`/`except` lets you catch that and respond instead:
+
+```python
+try:
+    with open("save.json") as file:
+        data = json.load(file)
+except FileNotFoundError:
+    print("There's no saved game yet.")
+```
+
+### What needs saving?
+
+Only the parts of the game that **change**. Room names, descriptions and exits are written in your code, so they're the same every time. The player's room, their inventory, and the items in each room do change, so those get saved.
+
+## Steps
+
+Continue in your `adventure.py` from Module 04. (Fell behind? Copy this module's `starter/adventure.py` and carry on from there.)
+
+1. **Import `json`.** At the very top of your file, add:
+   ```python
+   import json
+   ```
+   And under your other settings (like `goal_room`), add the name of the save file:
+   ```python
+   SAVE_FILE = "savegame.json"
+   ```
+
+2. **Write `save_game()`.**
+   ```python
+   def save_game(current_room, inventory):
+       # Each room's items can change, so save them under the room's key.
+       room_items = {}
+       for key in rooms:
+           room_items[key] = rooms[key]["items"]
+
+       data = {
+           "current_room": current_room,
+           "inventory": inventory,
+           "room_items": room_items,
+       }
+       with open(SAVE_FILE, "w") as file:
+           json.dump(data, file)
+       print("Game saved.")
+   ```
+   Add a `save` command to your loop that calls it. Play a little, save, and open `savegame.json` to see what was written.
+
+3. **Your turn: write `load_game()`.** It should:
+   1. Open `SAVE_FILE` and read it with `json.load()`. If the file doesn't exist, print a message and `return None`.
+   2. Put each room's items back: loop over `data["room_items"]` and set `rooms[key]["items"]` for each key.
+   3. Return the saved room and inventory: `return data["current_room"], data["inventory"]`.
+
+   Returning two values separated by a comma gives back a **tuple**, which you can unpack into two variables at once.
+
+4. **Your turn: add the `load` command.** In your loop, call `load_game()`. If it didn't return `None`, unpack the result into `current_room` and `inventory`, and describe the room so the player knows where they are:
+   ```python
+   loaded = load_game()
+   if loaded is not None:
+       current_room, inventory = loaded
+       describe(current_room)
+   ```
+
+5. **Test it properly.** Take an item, move somewhere, `save`, then `quit`. Start the game again, type `load`, and check your room and inventory came back. Also try `load` in a folder with no save file.
+
+6. **Update `help`** with `save` and `load`.
+
+That's the whole game! Read your `adventure.py` from top to bottom and add comments anywhere a friend might get lost.
+
+## Make it yours
+
+- **Multiple save slots:** let `save` and `load` take a name, like `save before-boss`, and use it in the file name.
+- **Save anything else you've added**, such as a move counter, visited rooms or a score. Add it to the `data` dictionary and restore it in `load_game()`.
+- **Share it.** Send your `adventure.py` to a friend, or put it on GitHub (see [Git and GitHub basics](../../../../guides/git-and-github.md)).
+
+## Check your work
+
+```sh
+python check.py 5
+```
+
+The checker plays in a temporary folder, so it won't overwrite your own save file.
+
+## Stuck?
+
+- **`NameError: name 'json' is not defined`**: add `import json` at the top of the file.
+- **`TypeError: Object of type set is not JSON serializable`** (or similar): JSON only understands strings, numbers, `True`/`False`, `None`, lists and dictionaries. Convert anything else, like a set, to a list before saving.
+- **`TypeError: cannot unpack non-iterable NoneType object`**: you unpacked the result of `load_game()` without checking for `None` first.
+- **Loading puts you in the right room, but items are wrong**: make sure `load_game()` restores `room_items` into `rooms`, not just the player's inventory.
+- **Can't find `savegame.json`**: it's created in the folder your terminal is in when you run the game, which might not be your game's folder.
+
+## Resources
+
+- [Python docs: Reading and writing files](https://docs.python.org/3/tutorial/inputoutput.html#reading-and-writing-files): the official guide. Read the part about `with`, and the section on saving structured data with `json`.
+- [Python docs: Handling exceptions](https://docs.python.org/3/tutorial/errors.html#handling-exceptions): how `try`/`except` works, with more examples.
+- [JSON.org](https://www.json.org/json-en.html): the whole JSON format on one page.
+
+## Challenges (optional)
+
+- Save automatically every time the player moves, so they never lose progress.
+- Move your world out of the code: put `rooms` in a `world.json` file and load it at the start. Now you can write new adventures without touching Python.
+- Make your game fully replayable: when the player wins, ask whether they'd like to play again.
+
+## You did it!
+
+You've built a complete text adventure: a game loop, a world, items, puzzles, a win condition and save files. Those same ideas, state and a loop that updates it, are at the core of almost every game.
+
+Want to keep going? See [Going further](../../README.md#going-further) for ideas, or pick another project from the [vault](../../../../README.md).

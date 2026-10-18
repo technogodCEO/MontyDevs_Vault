@@ -6,4 +6,4 @@ Projects are listed from easiest to hardest. Each one stands on its own, so pick
 
 | # | Project | Difficulty | Language | Modules |
 | --- | --- | --- | --- | --- |
-| | _No projects yet. See [CONTRIBUTING.md](../CONTRIBUTING.md) to add one._ | | | |
+| 01 | [Text Adventure](01-text-adventure/) | Beginner | Python | 5 |
