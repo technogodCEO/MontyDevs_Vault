@@ -16,7 +16,7 @@ Projects are grouped by **topic**. Within each topic they're numbered from easie
 
 More topics will be added as projects are written.
 
-Each project is its own **mini course**. Its modules are meant to be done in order, from `01` to the end, and each one builds on the code you wrote in the last.
+Each project is its own **mini course**. Its modules are meant to be done in order, from `00` to the end, and each one builds on the code you wrote in the last.
 
 ### Difficulty levels
 
