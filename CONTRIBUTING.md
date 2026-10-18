@@ -40,6 +40,7 @@ How much a module hands over depends on the project's difficulty:
 | **Hints** | Inline, right where they're needed | In "Stuck?" | In "Stuck?" and in collapsible `<details>` blocks |
 | **Self-check** | Checks each feature, with detailed messages | Checks behaviour, with shorter messages | Checks the spec only, like an acceptance test |
 | **Solutions** | An example `solution/` in every module | None | None |
+| **Practice answers** | Example answers in `solution/practice_NN.py` | Hints only | Hints only |
 
 Even at Beginner, a module is never a pure copy-paste: every module should have at least one **Your turn** step where the learner writes code they weren't shown.
 
@@ -54,6 +55,15 @@ Every project starts with a `00-setup` module that takes a learner from nothing 
 - Say which steps can be skipped by someone who has already done a project in the same language.
 
 There are no `starter/` folders: Module 00 is where the learner's code begins.
+
+## Practice problems
+
+Every lesson (except Module 00) has a **Practice** section between the concepts and the steps, so learners try each new idea on its own before using it in the project:
+
+- **Think it through:** 2–3 "predict the output" or "spot the problem" questions, answered in collapsible `<details>` blocks. These are about reading code, so they stay in the lesson.
+- **Try it in code:** a `practice_NN.py` file in the module folder with 3–4 small functions to fill in (`# Your code here` and `pass`), including one **FIX THE BUG** problem that already has broken code. Learners copy it next to the self-check and run `python check.py practice NN`.
+
+Keep practice problems separate from the project, so learners can't solve them by copying their game code. Put their tests in the project's self-check, not in the practice file. Each problem should get its own `[PASS]` / `[TODO]` / `[NOT YET]` result, so they can be done in any order. The text adventure's `check.py` shows how: it runs each problem in its own process with a time limit, and treats a function whose body is still `pass` as not started.
 
 ## Leave room to personalize
 
@@ -83,11 +93,12 @@ Each learner should end up with a project that's recognisably *theirs*.
 
 ## Self-checks
 
-- Run with one command, from the learner's own project folder, taking the module number: e.g. `python check.py 3`. Module `0` checks the setup.
+- Run with one command, from the learner's own project folder, taking the module number: e.g. `python check.py 3`. Module `0` checks the setup, and `python check.py practice 3` tests that module's practice file.
 - Check the given module **and every module before it**, so learners know nothing broke.
 - Print plain-ASCII results (`[PASS]`, `[NOT YET]`) so they display on every terminal.
 - Make failure messages say what to fix, in the learner's terms, not just that something failed.
 - Before opening a PR, test the check against working and unfinished code for each module. For Beginner projects: each module's `solution/` should pass its check, and the previous module's solution should not.
+- Test practice files the same way: the blank `practice_NN.py` should show every problem as `[TODO]` (or `[NOT YET]` for the bug fixes), and the example answers should all pass.
 
 ## Naming conventions
 

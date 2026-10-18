@@ -11,11 +11,22 @@ number you just finished:
 
 It checks that module and every module before it, so you know nothing broke.
 
+It also tests the practice problems in each lesson:
+
+    python check.py practice 2               # tests practice_02.py
+    python check.py practice 2 my_file.py
+
 The checker doesn't care what your world looks like. It reads YOUR rooms and
 items, then plays your game to make sure the features work. Your story,
 rooms and messages can be anything you like.
 """
 
+import ast
+import builtins
+import contextlib
+import importlib.util
+import inspect
+import io
 import json
 import os
 import subprocess
@@ -396,8 +407,332 @@ def check_05(game_path):
 CHECKS = [check_00, check_01, check_02, check_03, check_04, check_05]
 
 
+# ---------------------------------------------------------------------------
+# Practice problems
+# ---------------------------------------------------------------------------
+# Each lesson has a practice_NN.py file of small functions to fill in. The
+# tests for them live here, so the practice files only contain the problems.
+#
+# Every problem is tested in its own Python process, so one that loops
+# forever can be stopped without stopping the rest.
+
+
+class NotStarted(Exception):
+    """Raised when a practice function hasn't been written yet."""
+
+
+def is_unstarted(function):
+    """True if a function's body is still just `pass` (plus maybe a docstring)."""
+    try:
+        tree = ast.parse(inspect.cleandoc("\n" + inspect.getsource(function)))
+    except (OSError, TypeError, SyntaxError):
+        return False
+    body = tree.body[0].body
+    if body and isinstance(body[0], ast.Expr) and isinstance(getattr(body[0], "value", None), ast.Constant):
+        body = body[1:]  # skip the docstring
+    return all(isinstance(statement, ast.Pass) for statement in body)
+
+
+class Practice:
+    """Calls functions from a practice file, with fake typing and captured printing."""
+
+    def __init__(self, practice_module):
+        self.practice_module = practice_module
+
+    def call(self, name, *args, inputs=()):
+        """
+        Call the learner's function `name`. Any input() it does is answered from
+        `inputs`, in order. Returns (result, printed_text, answers_used).
+        """
+        function = getattr(self.practice_module, name, None)
+        if function is None:
+            fail(f"Couldn't find a function called {name}(). "
+                 "Keep the function names from the practice file.")
+        if is_unstarted(function):
+            raise NotStarted()
+
+        answers = list(inputs)
+        used = []
+
+        def fake_input(prompt=""):
+            if not answers:
+                fail(f"{name}() kept asking for input after these answers: {used}")
+            used.append(answers.pop(0))
+            return used[-1]
+
+        printed = io.StringIO()
+        real_input = builtins.input
+        builtins.input = fake_input
+        try:
+            with contextlib.redirect_stdout(printed):
+                result = function(*args)
+        except CheckFailed:
+            raise
+        except Exception as error:
+            fail(f"{name}() crashed with {type(error).__name__}: {error}")
+        finally:
+            builtins.input = real_input
+
+        return result, printed.getvalue(), used
+
+
+def expect(name, args, got, want):
+    """Fail with a clear message if a function returned the wrong thing."""
+    if got != want:
+        shown = ", ".join(repr(a) for a in args)
+        fail(f"{name}({shown}) should return {want!r}, but returned {got!r}.")
+
+
+def returns(p, name, *args, want):
+    got = p.call(name, *args)[0]
+    expect(name, args, got, want)
+
+
+# --- Module 01 --------------------------------------------------------------
+def p01_clean(p):
+    returns(p, "clean", "  QUIT ", want="quit")
+    returns(p, "clean", "Go North", want="go north")
+    returns(p, "clean", "look", want="look")
+
+
+def p01_countdown(p):
+    returns(p, "countdown", 3, want=[3, 2, 1])
+    returns(p, "countdown", 1, want=[1])
+    returns(p, "countdown", 0, want=[])
+
+
+def p01_are_we_there_yet(p):
+    _, printed, used = p.call("are_we_there_yet", inputs=["no", "maybe", " YES "])
+    if len(used) < 3:
+        fail(f"are_we_there_yet() stopped after {used}, before anyone said yes.")
+    if "Finally!" not in printed:
+        fail("are_we_there_yet() should print 'Finally!' once the answer is yes.")
+
+
+def p01_password_door(p):
+    try:
+        p.call("password_door", inputs=["hello"])
+    except CheckFailed as problem:
+        if "kept asking" not in str(problem):
+            raise
+    else:
+        fail("password_door() stopped asking after a wrong password ('hello').")
+    _, printed, used = p.call("password_door", inputs=["hello", "  Open SESAME "])
+    if "The door opens." not in printed:
+        fail("password_door() should print 'The door opens.' after '  Open SESAME '.")
+
+
+# --- Module 02 --------------------------------------------------------------
+def p02_opposite(p):
+    for direction, want in [("north", "south"), ("south", "north"),
+                            ("east", "west"), ("west", "east"), ("up", "?")]:
+        returns(p, "opposite", direction, want=want)
+
+
+def p02_split_command(p):
+    for text, want in [("go up the stairs", ("go", "up the stairs")),
+                       ("look", ("look", "")), ("   ", ("", ""))]:
+        got = p.call("split_command", text)[0]
+        expect("split_command", [text], tuple(got) if isinstance(got, list) else got, want)
+
+
+def p02_follow(p):
+    world = {
+        "a": {"exits": {"east": "b"}},
+        "b": {"exits": {"west": "a", "north": "c"}},
+        "c": {"exits": {}},
+    }
+    returns(p, "follow", world, "a", ["east", "north"], want="c")
+    returns(p, "follow", world, "a", ["north", "east"], want="b")
+    returns(p, "follow", world, "c", [], want="c")
+
+
+def p02_describe_exits(p):
+    returns(p, "describe_exits", {"exits": {"north": "hall", "east": "yard"}},
+            want="Exits: north, east")
+    returns(p, "describe_exits", {"exits": {"down": "cellar"}}, want="Exits: down")
+
+
+# --- Module 03 --------------------------------------------------------------
+def p03_move_item(p):
+    source, target = ["lamp", "rope"], ["key"]
+    returns(p, "move_item", "lamp", source, target, want=True)
+    if source != ["rope"] or target != ["key", "lamp"]:
+        fail(f"After move_item('lamp', ...), the lists should be ['rope'] and "
+             f"['key', 'lamp'], but they're {source} and {target}.")
+    returns(p, "move_item", "lamp", source, target, want=False)
+    if source != ["rope"] or target != ["key", "lamp"]:
+        fail("move_item() shouldn't change the lists when the item isn't there.")
+
+
+def p03_add_to_bag(p):
+    bag = ["map"]
+    p.call("add_to_bag", "rope", bag)
+    if bag != ["map", "rope"]:
+        fail(f"After add_to_bag('rope', bag), the bag should be ['map', 'rope'], "
+             f"but it's still {bag}.")
+
+
+def p03_count_items(p):
+    rooms = {"a": {"items": ["x", "y"]}, "b": {"items": []}, "c": {"items": ["z"]}}
+    returns(p, "count_items", rooms, want=3)
+    returns(p, "count_items", {}, want=0)
+
+
+def p03_describe_items(p):
+    returns(p, "describe_items", ["lamp", "rope"], want="You see: lamp, rope")
+    returns(p, "describe_items", ["key"], want="You see: key")
+    returns(p, "describe_items", [], want="There's nothing here.")
+
+
+# --- Module 04 --------------------------------------------------------------
+def p04_can_pass(p):
+    hall = {"exits": {"north": "x", "east": "y"}, "locked": {"north": "key"}}
+    returns(p, "can_pass", hall, "north", [], want=False)
+    returns(p, "can_pass", hall, "north", ["lamp", "key"], want=True)
+    returns(p, "can_pass", hall, "east", [], want=True)
+    returns(p, "can_pass", {"exits": {"south": "z"}}, "south", [], want=True)
+
+
+def p04_lock_for(p):
+    returns(p, "lock_for", {"locked": {"north": "key"}}, "north", want="key")
+    returns(p, "lock_for", {"locked": {"north": "key"}}, "east", want=None)
+    returns(p, "lock_for", {"exits": {}}, "north", want=None)
+
+
+def p04_missing_keys(p):
+    rooms = {
+        "yard": {"items": ["key"], "locked": {"north": "key", "east": "crowbar"}},
+        "shed": {"items": []},
+        "house": {"items": [], "locked": {"up": "lamp"}},
+    }
+    returns(p, "missing_keys", rooms, want=["crowbar", "lamp"])
+    returns(p, "missing_keys", {"a": {"items": ["key"]}}, want=[])
+
+
+# --- Module 05 --------------------------------------------------------------
+def p05_settings(p):
+    with tempfile.TemporaryDirectory() as folder:
+        path = os.path.join(folder, "settings.json")
+        p.call("save_settings", {"volume": 7, "name": "Ana"}, path)
+        if not os.path.exists(path):
+            fail("save_settings() should create the file it's given.")
+        returns(p, "load_settings", path, want={"volume": 7, "name": "Ana"})
+        returns(p, "load_settings", os.path.join(folder, "missing.json"), want={})
+
+
+def p05_load_scores(p):
+    with tempfile.TemporaryDirectory() as folder:
+        path = os.path.join(folder, "scores.json")
+        returns(p, "load_scores", path, want=[])
+        with open(path, "w") as file:
+            json.dump([5, 7], file)
+        returns(p, "load_scores", path, want=[5, 7])
+
+
+def p05_save_score(p):
+    with tempfile.TemporaryDirectory() as folder:
+        path = os.path.join(folder, "scores.json")
+        p.call("save_score", "Ana", 5, path)
+        p.call("save_score", "Ben", 7, path)
+        try:
+            with open(path) as file:
+                saved = json.load(file)
+        except (OSError, ValueError):
+            fail("save_score() should write the scores to the file as JSON.")
+        want = [{"name": "Ana", "score": 5}, {"name": "Ben", "score": 7}]
+        if saved != want:
+            fail(f"After saving Ana (5) then Ben (7), the file should hold {want}, "
+                 f"but it holds {saved}.")
+
+
+# This problem covers two functions, so give it a clearer name in the report.
+p05_settings.label = "save_settings() and load_settings()"
+
+# The problems for each module, in the order they appear in practice_NN.py.
+PRACTICE_TESTS = {
+    1: [p01_clean, p01_countdown, p01_are_we_there_yet, p01_password_door],
+    2: [p02_opposite, p02_split_command, p02_follow, p02_describe_exits],
+    3: [p03_move_item, p03_add_to_bag, p03_count_items, p03_describe_items],
+    4: [p04_can_pass, p04_lock_for, p04_missing_keys],
+    5: [p05_settings, p05_load_scores, p05_save_score],
+}
+
+
+def run_one_practice(module, index, path):
+    """(Runs in its own process.) Test one problem and print the result as JSON."""
+    test = PRACTICE_TESTS[module][index]
+    status, message = "pass", ""
+    try:
+        spec = importlib.util.spec_from_file_location("practice", path)
+        practice_module = importlib.util.module_from_spec(spec)
+        with contextlib.redirect_stdout(io.StringIO()):
+            spec.loader.exec_module(practice_module)
+        test(Practice(practice_module))
+    except NotStarted:
+        status = "todo"
+    except CheckFailed as problem:
+        status, message = "fail", str(problem)
+    except Exception as error:
+        status, message = "fail", f"Python couldn't load the file: {type(error).__name__}: {error}"
+    print("\n" + json.dumps({"status": status, "message": message}))
+
+
+def run_practice(module, path):
+    """Test every practice problem for a module and print a short report."""
+    tests = PRACTICE_TESTS[module]
+    passed = 0
+    for index, test in enumerate(tests):
+        label = f"{index + 1}. " + getattr(test, "label", f"{test.__name__[4:]}()")
+        try:
+            result = subprocess.run(
+                [sys.executable, "-B", os.path.abspath(__file__),
+                 "--practice-one", str(module), str(index), path],
+                stdin=subprocess.DEVNULL, capture_output=True, text=True,
+                encoding="utf-8", errors="replace", timeout=TIMEOUT,
+            )
+            outcome = json.loads(result.stdout.strip().splitlines()[-1])
+        except subprocess.TimeoutExpired:
+            outcome = {"status": "fail", "message": f"Still running after {TIMEOUT} "
+                       "seconds. Is there a while loop that never ends?"}
+        except (ValueError, IndexError):
+            outcome = {"status": "fail", "message": result.stderr.strip()}
+
+        if outcome["status"] == "pass":
+            passed += 1
+            print(f"[PASS]    {label}")
+        elif outcome["status"] == "todo":
+            print(f"[TODO]    {label}  (not started yet)")
+        else:
+            print(f"[NOT YET] {label}\n          {outcome['message']}")
+
+    print(f"\n{passed} of {len(tests)} practice problems solved.")
+    if passed == len(tests):
+        print("All done. On to the steps!")
+    sys.exit(0 if passed == len(tests) else 1)
+
+
 def main():
     args = sys.argv[1:]
+
+    # Used internally: test a single practice problem in a fresh process.
+    if args[:1] == ["--practice-one"]:
+        run_one_practice(int(args[1]), int(args[2]), args[3])
+        return
+
+    # python check.py practice N [file]
+    if args[:1] == ["practice"]:
+        if len(args) < 2 or not args[1].isdigit() or int(args[1]) not in PRACTICE_TESTS:
+            print(f"Usage: python check.py practice N  (N is 1 to {len(PRACTICE_TESTS)})")
+            sys.exit(1)
+        module = int(args[1])
+        path = os.path.abspath(args[2] if len(args) > 2 else f"practice_{module:02d}.py")
+        if not os.path.isfile(path):
+            print(f"Couldn't find {path}.")
+            print(f"Copy practice_{module:02d}.py from the module's folder into this folder first.")
+            sys.exit(1)
+        run_practice(module, path)
+        return
     if not args or not args[0].isdigit() or not 0 <= int(args[0]) < len(CHECKS):
         print(__doc__)
         sys.exit(1)

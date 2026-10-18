@@ -51,7 +51,11 @@ Only the parts of the game that **change**. Room names, descriptions and exits a
 
 ## Practice
 
-Warm up on this module's ideas before you use them in your game. Try each problem first, then click **Answer** to check.
+Warm up on this module's ideas before you use them in your game.
+
+### Think it through
+
+Try each one in your head (or on paper) first, then click **Answer** to check.
 
 **1. Predict the output.**
 
@@ -86,52 +90,19 @@ print(low, high)
 
 </details>
 
-**3. Find the bug.** This works once `scores.json` exists, but crashes the very first time. Why, and how would you fix it?
+### Try it in code
 
-```python
-import json
+[`practice_05.py`](practice_05.py) has small problems to solve in Python: saving and loading settings, a bug to fix, and a high-score saver.
 
-try:
-    with open("scores.json") as file:
-        scores = json.load(file)
-except FileNotFoundError:
-    print("No scores yet.")
-print(len(scores))
-```
+1. Copy `practice_05.py` into your game folder, next to `check.py`.
+2. Fill in each function where it says `# Your code here`. Problems marked **FIX THE BUG** already have code: find what's wrong and fix it.
+3. Test your answers:
+   ```sh
+   python check.py practice 5
+   ```
+   Each problem shows `[PASS]`, `[TODO]` (not started yet) or `[NOT YET]` with a hint, so you can do them in any order.
 
-<details><summary>Answer</summary>
-
-When the file doesn't exist, the `except` branch runs and `scores` is never created, so `len(scores)` raises a `NameError`. Give it a starting value in the `except`:
-
-```python
-except FileNotFoundError:
-    scores = []
-```
-
-</details>
-
-**4. Write it.** Write `save_score(name, score)`. It should load a list of scores from `scores.json` (or start with an empty list if the file doesn't exist), add `{"name": name, "score": score}`, and write the list back.
-
-<details><summary>Answer</summary>
-
-```python
-import json
-
-def save_score(name, score):
-    try:
-        with open("scores.json") as file:
-            scores = json.load(file)
-    except FileNotFoundError:
-        scores = []
-
-    scores.append({"name": name, "score": score})
-    with open("scores.json", "w") as file:
-        json.dump(scores, file)
-```
-
-This is the same load-change-save pattern your game uses. Bonus: keep only the top 5 with `scores.sort(key=lambda s: s["score"], reverse=True)` and `scores[:5]`.
-
-</details>
+Stuck? Example answers are in [`solution/practice_05.py`](solution/practice_05.py).
 
 ## Steps
 

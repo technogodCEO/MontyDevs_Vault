@@ -37,7 +37,11 @@ So `input("> ").strip().lower()` turns all three of those into `"quit"`.
 
 ## Practice
 
-Warm up on this module's ideas before you use them in your game. Try each problem first, then click **Answer** to check.
+Warm up on this module's ideas before you use them in your game.
+
+### Think it through
+
+Try each one in your head (or on paper) first, then click **Answer** to check.
 
 **1. Predict the output.** What does this print?
 
@@ -70,41 +74,19 @@ The loop runs while `count > 0`: for 3, 2 and 1. When `count` reaches 0 the cond
 
 </details>
 
-**3. Find the bug.** This loop never ends, even when you type `yes`. Why?
+### Try it in code
 
-```python
-answer = ""
-while answer != "yes":
-    input("Are we there yet? ")
-print("Finally!")
-```
+[`practice_01.py`](practice_01.py) has small problems to solve in Python: cleaning up input, a countdown loop, a buggy loop to fix, and a password door.
 
-<details><summary>Answer</summary>
+1. Copy `practice_01.py` into your game folder, next to `check.py`.
+2. Fill in each function where it says `# Your code here`. Problems marked **FIX THE BUG** already have code: find what's wrong and fix it.
+3. Test your answers:
+   ```sh
+   python check.py practice 1
+   ```
+   Each problem shows `[PASS]`, `[TODO]` (not started yet) or `[NOT YET]` with a hint, so you can do them in any order.
 
-The result of `input()` is never stored, so `answer` stays `""` forever. Save it:
-
-```python
-    answer = input("Are we there yet? ").strip().lower()
-```
-
-Adding `.strip().lower()` means `Yes` and ` YES ` count too.
-
-</details>
-
-**4. Write it.** Keep asking for the password until the player types `open sesame` (in any capitals, with or without extra spaces). Then print `The door opens.`
-
-<details><summary>Answer</summary>
-
-```python
-password = ""
-while password != "open sesame":
-    password = input("Password: ").strip().lower()
-print("The door opens.")
-```
-
-Your version might use `playing = True` and an `if` inside the loop, like the game does. That works just as well.
-
-</details>
+Stuck? Example answers are in [`solution/practice_01.py`](solution/practice_01.py).
 
 ## Steps
 

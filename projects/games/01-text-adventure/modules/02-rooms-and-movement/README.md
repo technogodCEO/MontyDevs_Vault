@@ -39,7 +39,11 @@ An f-string puts values straight into text: `f"You can't go {direction}."`. The 
 
 ## Practice
 
-Warm up on this module's ideas before you use them in your game. Try each problem first, then click **Answer** to check.
+Warm up on this module's ideas before you use them in your game.
+
+### Think it through
+
+Try each one in your head (or on paper) first, then click **Answer** to check.
 
 **1. Predict the output.**
 
@@ -94,21 +98,19 @@ They end up in `"c"`: `east` from `a` leads to `b`, and `north` from `b` leads t
 
 </details>
 
-**4. Write it.** Write a function `opposite(direction)` that returns the opposite of `north`, `south`, `east` or `west`, and `"?"` for anything else. Try it with a dictionary instead of a chain of `if`s.
+### Try it in code
 
-<details><summary>Answer</summary>
+[`practice_02.py`](practice_02.py) has small problems to solve in Python: opposite directions, splitting commands, following a path through a map, and a bug to fix.
 
-```python
-def opposite(direction):
-    opposites = {"north": "south", "south": "north", "east": "west", "west": "east"}
-    if direction in opposites:
-        return opposites[direction]
-    return "?"
-```
+1. Copy `practice_02.py` into your game folder, next to `check.py`.
+2. Fill in each function where it says `# Your code here`. Problems marked **FIX THE BUG** already have code: find what's wrong and fix it.
+3. Test your answers:
+   ```sh
+   python check.py practice 2
+   ```
+   Each problem shows `[PASS]`, `[TODO]` (not started yet) or `[NOT YET]` with a hint, so you can do them in any order.
 
-(You'll meet a shorter way to write this, `opposites.get(direction, "?")`, in Module 04.) A function like this could check that every exit in your world has a matching way back.
-
-</details>
+Stuck? Example answers are in [`solution/practice_02.py`](solution/practice_02.py).
 
 ## Steps
 

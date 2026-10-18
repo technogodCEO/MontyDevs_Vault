@@ -22,7 +22,11 @@ A good puzzle gives the player a goal they can see (a locked door) before they h
 
 ## Practice
 
-Warm up on this module's ideas before you use them in your game. Try each problem first, then click **Answer** to check.
+Warm up on this module's ideas before you use them in your game.
+
+### Think it through
+
+Try each one in your head (or on paper) first, then click **Answer** to check.
 
 **1. Predict the output.**
 
@@ -45,21 +49,7 @@ There's no `"locked"` key, so `.get()` returns the default `{}`. With no default
 
 </details>
 
-**2. Write it.** Write `can_pass(room, direction, inventory)`, which returns `True` if the exit isn't locked, or if the player carries the item that unlocks it.
-
-<details><summary>Answer</summary>
-
-```python
-def can_pass(room, direction, inventory):
-    needed = room.get("locked", {}).get(direction)
-    return needed is None or needed in inventory
-```
-
-`needed` is `None` when that direction isn't locked. Pulling a rule like this into its own function makes `go()` shorter and easier to read.
-
-</details>
-
-**3. Can it be won?** The player starts in the yard and needs to reach the house. Is this world winnable? If not, how would you fix it?
+**2. Can it be won?** The player starts in the yard and needs to reach the house. Is this world winnable? If not, how would you fix it?
 
 ```python
 rooms = {
@@ -77,6 +67,20 @@ No. The key is in the shed, but the shed needs the crowbar, and the crowbar is i
 One fix is to put the crowbar in the yard. Then the player takes the crowbar, opens the shed, takes the key, and opens the house. The checker's "can't be won" message catches loops like this one.
 
 </details>
+
+### Try it in code
+
+[`practice_04.py`](practice_04.py) has small problems to solve in Python: checking locks, a bug to fix, and finding keys that are missing from a world.
+
+1. Copy `practice_04.py` into your game folder, next to `check.py`.
+2. Fill in each function where it says `# Your code here`. Problems marked **FIX THE BUG** already have code: find what's wrong and fix it.
+3. Test your answers:
+   ```sh
+   python check.py practice 4
+   ```
+   Each problem shows `[PASS]`, `[TODO]` (not started yet) or `[NOT YET]` with a hint, so you can do them in any order.
+
+Stuck? Example answers are in [`solution/practice_04.py`](solution/practice_04.py).
 
 ## Steps
 

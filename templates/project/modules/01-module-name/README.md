@@ -6,6 +6,30 @@
 
 Explain the new ideas this module introduces, with small code snippets where they help. How much to explain depends on the project's difficulty (see CONTRIBUTING.md).
 
+## Practice
+
+Warm up on this module's ideas before the learner uses them in the project.
+
+### Think it through
+
+Two or three "predict the output" or "spot the problem" questions, each with its answer hidden:
+
+**1. Predict the output.**
+
+```python
+# a short snippet using this module's new idea
+```
+
+<details><summary>Answer</summary>
+
+The output, and a sentence on why.
+
+</details>
+
+### Try it in code
+
+Link `practice_NN.py`, say what it covers, and explain how to copy it next to the self-check, fill it in, and run `<check command> practice NN`. For Beginner projects, link the example answers in `solution/practice_NN.py`.
+
 ## Steps
 
 Continue in your code from the previous module. (Beginner projects only: if your code is badly broken, link the previous module's `solution/` here so the learner can copy it and carry on.)

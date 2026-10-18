@@ -29,7 +29,11 @@ Contrast that with `current_room` in Module 02. It's a string, and assigning a n
 
 ## Practice
 
-Warm up on this module's ideas before you use them in your game. Try each problem first, then click **Answer** to check.
+Warm up on this module's ideas before you use them in your game.
+
+### Think it through
+
+Try each one in your head (or on paper) first, then click **Answer** to check.
 
 **1. Predict the output.**
 
@@ -86,22 +90,19 @@ else:
 
 </details>
 
-**4. Write it.** Write `move_item(item, source, target)`. If `item` is in the `source` list, move it to the `target` list and return `True`. Otherwise change nothing and return `False`.
+### Try it in code
 
-<details><summary>Answer</summary>
+[`practice_03.py`](practice_03.py) has small problems to solve in Python: moving items between lists, a bug to fix, counting items, and describing them.
 
-```python
-def move_item(item, source, target):
-    if item not in source:
-        return False
-    source.remove(item)
-    target.append(item)
-    return True
-```
+1. Copy `practice_03.py` into your game folder, next to `check.py`.
+2. Fill in each function where it says `# Your code here`. Problems marked **FIX THE BUG** already have code: find what's wrong and fix it.
+3. Test your answers:
+   ```sh
+   python check.py practice 3
+   ```
+   Each problem shows `[PASS]`, `[TODO]` (not started yet) or `[NOT YET]` with a hint, so you can do them in any order.
 
-`take` and `drop` are both `move_item` with the lists swapped. Could your game use one function for both?
-
-</details>
+Stuck? Example answers are in [`solution/practice_03.py`](solution/practice_03.py).
 
 ## Steps
 

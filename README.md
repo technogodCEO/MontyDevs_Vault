@@ -42,8 +42,9 @@ projects/
             ├── 00-setup/
             │   └── README.md      # Install tools, get the vault, make your project folder
             ├── 01-module-name/
-            │   ├── README.md      # The lesson: concepts, steps, Make it yours, Stuck?
-            │   └── solution/      # Beginner projects only: an example solution
+            │   ├── README.md      # The lesson: concepts, practice, steps, Make it yours, Stuck?
+            │   ├── practice_01.py # Practice problems to solve before the steps
+            │   └── solution/      # Beginner projects only: example solution and practice answers
             └── 02-module-name/
                 └── ...
 ```
@@ -60,7 +61,7 @@ New to coding tools? Start with the [guides](guides/): installing Python, using 
 
 1. Pick a topic, then a project at your level, and read the project's `README.md`.
 2. Do **Module 00: Setup** to install what you need and make your own project folder.
-3. Read each lesson and build it yourself. If you get stuck, try the module's **Stuck?** section and hints first.
+3. Read each lesson and do its **Practice** problems, then build that module's part of the project yourself. If you get stuck, try the module's **Stuck?** section and hints first.
 4. Run the self-check. When it passes, go on to the next module and keep working in the same code.
 5. Repeat until you've finished the last module.
 

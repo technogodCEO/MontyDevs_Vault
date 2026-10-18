@@ -57,11 +57,12 @@ The solutions are just one way to do it. The self-check doesn't look at your sto
 
 1. Start with [Module 00: Setup](modules/00-setup/). It gets Python installed, the vault onto your computer, and your own game folder ready with `adventure.py` and [`check.py`](check.py).
 2. Work through the modules **in order**. Each one continues from the code you wrote in the last, so by the end you've built the whole game.
-3. At the end of each module, check your work from your game folder:
+3. Each lesson starts with **Practice**: a few questions to think through, and a `practice_NN.py` file of small problems. Copy it into your game folder and test it with `python check.py practice 1` (using the module's number).
+4. At the end of each module, check your work from your game folder:
    ```sh
    python check.py 1      # use the module's number
    ```
-4. Each module has an example `solution/`. Use it as a last resort, after the module's **Stuck?** section. If your code gets badly broken, you can copy the previous module's solution and carry on from there.
+5. Each module has an example `solution/`. Use it as a last resort, after the module's **Stuck?** section. If your code gets badly broken, you can copy the previous module's solution and carry on from there.
 
 ## Modules
 
