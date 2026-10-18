@@ -1,0 +1,6 @@
+# Python
+__pycache__/
+*.pyc
+
+# Text Adventure save files
+savegame.json
