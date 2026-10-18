@@ -37,6 +37,79 @@ A function can hand a result back with `return`. We'll write a `go()` function t
 
 An f-string puts values straight into text: `f"You can't go {direction}."`. The `f` before the quote is what makes it work.
 
+## Practice
+
+Warm up on this module's ideas before you use them in your game. Try each problem first, then click **Answer** to check.
+
+**1. Predict the output.**
+
+```python
+pets = {"cat": "Mochi", "dog": "Biscuit"}
+pets["fish"] = "Bubbles"
+print(len(pets), pets["dog"])
+```
+
+<details><summary>Answer</summary>
+
+`3 Biscuit`. Assigning to a new key (`"fish"`) adds it, so the dictionary has 3 entries. `pets["dog"]` looks up the value stored under `"dog"`.
+
+</details>
+
+**2. Predict the output.**
+
+```python
+words = "go up the stairs".split()
+print(words[0])
+print(" ".join(words[1:]))
+print("".split())
+```
+
+<details><summary>Answer</summary>
+
+```
+go
+up the stairs
+[]
+```
+
+`words[1:]` is every word after the first. Splitting an empty string gives an empty list, which is why the game checks `len(words) == 0` before reading `words[0]`.
+
+</details>
+
+**3. Trace the map.** Starting in room `"a"`, the player types `go east`, then `go north`. Which room are they in? And what happens if the code then runs `world["c"]["exits"]["south"]`?
+
+```python
+world = {
+    "a": {"exits": {"east": "b"}},
+    "b": {"exits": {"west": "a", "north": "c"}},
+    "c": {"exits": {}},
+}
+```
+
+<details><summary>Answer</summary>
+
+They end up in `"c"`: `east` from `a` leads to `b`, and `north` from `b` leads to `c`.
+
+`world["c"]["exits"]["south"]` raises a `KeyError`, because `c` has no `"south"` exit. That's why `go()` checks `if direction not in exits` before looking it up.
+
+</details>
+
+**4. Write it.** Write a function `opposite(direction)` that returns the opposite of `north`, `south`, `east` or `west`, and `"?"` for anything else. Try it with a dictionary instead of a chain of `if`s.
+
+<details><summary>Answer</summary>
+
+```python
+def opposite(direction):
+    opposites = {"north": "south", "south": "north", "east": "west", "west": "east"}
+    if direction in opposites:
+        return opposites[direction]
+    return "?"
+```
+
+(You'll meet a shorter way to write this, `opposites.get(direction, "?")`, in Module 04.) A function like this could check that every exit in your world has a matching way back.
+
+</details>
+
 ## Steps
 
 Continue in your `adventure.py` from Module 01. (Code badly broken, or skipped a module? Copy [Module 01's solution](../01-the-game-loop/solution/adventure.py) into your folder and carry on from there.)

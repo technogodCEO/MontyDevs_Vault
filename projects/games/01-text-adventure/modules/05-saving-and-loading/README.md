@@ -49,6 +49,90 @@ except FileNotFoundError:
 
 Only the parts of the game that **change**. Room names, descriptions and exits are written in your code, so they're the same every time. The player's room, their inventory, and the items in each room do change, so those get saved.
 
+## Practice
+
+Warm up on this module's ideas before you use them in your game. Try each problem first, then click **Answer** to check.
+
+**1. Predict the output.**
+
+```python
+import json
+print(json.dumps({"hp": 10, "items": ["sword"], "alive": True}))
+```
+
+<details><summary>Answer</summary>
+
+```
+{"hp": 10, "items": ["sword"], "alive": true}
+```
+
+`json.dumps` turns Python data into a JSON string (`json.dump`, without the `s`, writes it to a file instead). It looks almost the same as Python, but JSON always uses double quotes and writes `True` as `true`.
+
+</details>
+
+**2. Predict the output.**
+
+```python
+def min_max(numbers):
+    return min(numbers), max(numbers)
+
+low, high = min_max([4, 9, 1])
+print(low, high)
+```
+
+<details><summary>Answer</summary>
+
+`1 9`. Returning two values separated by a comma gives back a tuple, and `low, high = ...` unpacks it into two variables. `load_game()` does the same thing with the room and the inventory.
+
+</details>
+
+**3. Find the bug.** This works once `scores.json` exists, but crashes the very first time. Why, and how would you fix it?
+
+```python
+import json
+
+try:
+    with open("scores.json") as file:
+        scores = json.load(file)
+except FileNotFoundError:
+    print("No scores yet.")
+print(len(scores))
+```
+
+<details><summary>Answer</summary>
+
+When the file doesn't exist, the `except` branch runs and `scores` is never created, so `len(scores)` raises a `NameError`. Give it a starting value in the `except`:
+
+```python
+except FileNotFoundError:
+    scores = []
+```
+
+</details>
+
+**4. Write it.** Write `save_score(name, score)`. It should load a list of scores from `scores.json` (or start with an empty list if the file doesn't exist), add `{"name": name, "score": score}`, and write the list back.
+
+<details><summary>Answer</summary>
+
+```python
+import json
+
+def save_score(name, score):
+    try:
+        with open("scores.json") as file:
+            scores = json.load(file)
+    except FileNotFoundError:
+        scores = []
+
+    scores.append({"name": name, "score": score})
+    with open("scores.json", "w") as file:
+        json.dump(scores, file)
+```
+
+This is the same load-change-save pattern your game uses. Bonus: keep only the top 5 with `scores.sort(key=lambda s: s["score"], reverse=True)` and `scores[:5]`.
+
+</details>
+
 ## Steps
 
 Continue in your `adventure.py` from Module 04. (Code badly broken, or skipped a module? Copy [Module 04's solution](../04-locks-and-winning/solution/adventure.py) into your folder and carry on from there.)

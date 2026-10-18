@@ -20,6 +20,64 @@ Your game now has **state**: where the player is, what they're carrying, and wha
 
 A good puzzle gives the player a goal they can see (a locked door) before they have the solution (the key). Make sure the solution is always reachable: a key locked behind its own door makes the game impossible to win. The checker plays through your game to make sure it can be won.
 
+## Practice
+
+Warm up on this module's ideas before you use them in your game. Try each problem first, then click **Answer** to check.
+
+**1. Predict the output.**
+
+```python
+room = {"exits": {"north": "hall"}}
+print(room.get("locked", {}))
+print(room.get("exits", {}).get("north"))
+print(room["exits"].get("south"))
+```
+
+<details><summary>Answer</summary>
+
+```
+{}
+hall
+None
+```
+
+There's no `"locked"` key, so `.get()` returns the default `{}`. With no default given, `.get()` returns `None` for a missing key instead of raising a `KeyError`.
+
+</details>
+
+**2. Write it.** Write `can_pass(room, direction, inventory)`, which returns `True` if the exit isn't locked, or if the player carries the item that unlocks it.
+
+<details><summary>Answer</summary>
+
+```python
+def can_pass(room, direction, inventory):
+    needed = room.get("locked", {}).get(direction)
+    return needed is None or needed in inventory
+```
+
+`needed` is `None` when that direction isn't locked. Pulling a rule like this into its own function makes `go()` shorter and easier to read.
+
+</details>
+
+**3. Can it be won?** The player starts in the yard and needs to reach the house. Is this world winnable? If not, how would you fix it?
+
+```python
+rooms = {
+    "yard": {"exits": {"east": "shed", "north": "house"}, "items": [],
+             "locked": {"north": "key", "east": "crowbar"}},
+    "shed": {"exits": {"west": "yard"}, "items": ["key"]},
+    "house": {"exits": {"south": "yard"}, "items": ["crowbar"]},
+}
+```
+
+<details><summary>Answer</summary>
+
+No. The key is in the shed, but the shed needs the crowbar, and the crowbar is in the house, which needs the key. Each item is locked behind the other.
+
+One fix is to put the crowbar in the yard. Then the player takes the crowbar, opens the shed, takes the key, and opens the house. The checker's "can't be won" message catches loops like this one.
+
+</details>
+
 ## Steps
 
 Continue in your `adventure.py` from Module 03. (Code badly broken, or skipped a module? Copy [Module 03's solution](../03-items-and-inventory/solution/adventure.py) into your folder and carry on from there.)

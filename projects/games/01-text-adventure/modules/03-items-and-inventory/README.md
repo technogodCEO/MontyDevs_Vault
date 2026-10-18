@@ -27,6 +27,82 @@ Contrast that with `current_room` in Module 02. It's a string, and assigning a n
 
 `if room["items"]:` is `True` when the list has something in it and `False` when it's empty. It's a short way to say `if len(room["items"]) > 0:`.
 
+## Practice
+
+Warm up on this module's ideas before you use them in your game. Try each problem first, then click **Answer** to check.
+
+**1. Predict the output.**
+
+```python
+bag = ["apple"]
+bag.append("map")
+bag.remove("apple")
+print(bag, "apple" in bag)
+```
+
+<details><summary>Answer</summary>
+
+`['map'] False`. `append` adds to the end and `remove` takes the first matching item out, so only `"map"` is left.
+
+</details>
+
+**2. Predict the output.** This one is tricky.
+
+```python
+def add_coin(purse):
+    purse.append("coin")
+
+def reset(score):
+    score = 0
+
+purse = []
+score = 10
+add_coin(purse)
+reset(score)
+print(purse, score)
+```
+
+<details><summary>Answer</summary>
+
+`['coin'] 10`.
+
+`add_coin` *changes* the list it was given, and that's the same list as `purse` outside, so the coin sticks. `reset` *assigns* a new value to its own `score` variable, which doesn't affect the `score` outside. That's why `take()` doesn't need to return anything, but `go()` has to return the new room.
+
+</details>
+
+**3. Predict the output.**
+
+```python
+items = []
+if items:
+    print("full")
+else:
+    print("empty")
+```
+
+<details><summary>Answer</summary>
+
+`empty`. An empty list counts as `False` in an `if`, and a list with anything in it counts as `True`.
+
+</details>
+
+**4. Write it.** Write `move_item(item, source, target)`. If `item` is in the `source` list, move it to the `target` list and return `True`. Otherwise change nothing and return `False`.
+
+<details><summary>Answer</summary>
+
+```python
+def move_item(item, source, target):
+    if item not in source:
+        return False
+    source.remove(item)
+    target.append(item)
+    return True
+```
+
+`take` and `drop` are both `move_item` with the lists swapped. Could your game use one function for both?
+
+</details>
+
 ## Steps
 
 Continue in your `adventure.py` from Module 02. (Code badly broken, or skipped a module? Copy [Module 02's solution](../02-rooms-and-movement/solution/adventure.py) into your folder and carry on from there.)

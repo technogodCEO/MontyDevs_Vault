@@ -35,6 +35,77 @@ Players type messily: `Quit`, `QUIT`, `  quit  `. Two string methods help:
 
 So `input("> ").strip().lower()` turns all three of those into `"quit"`.
 
+## Practice
+
+Warm up on this module's ideas before you use them in your game. Try each problem first, then click **Answer** to check.
+
+**1. Predict the output.** What does this print?
+
+```python
+count = 3
+while count > 0:
+    print(count)
+    count = count - 1
+print("Liftoff!")
+```
+
+<details><summary>Answer</summary>
+
+```
+3
+2
+1
+Liftoff!
+```
+
+The loop runs while `count > 0`: for 3, 2 and 1. When `count` reaches 0 the condition is `False`, so the loop stops and the last line runs.
+
+</details>
+
+**2. Predict the result.** What is `"  HeLLo ".strip().lower()`?
+
+<details><summary>Answer</summary>
+
+`"hello"`. `.strip()` removes the spaces at both ends, giving `"HeLLo"`, then `.lower()` makes it `"hello"`.
+
+</details>
+
+**3. Find the bug.** This loop never ends, even when you type `yes`. Why?
+
+```python
+answer = ""
+while answer != "yes":
+    input("Are we there yet? ")
+print("Finally!")
+```
+
+<details><summary>Answer</summary>
+
+The result of `input()` is never stored, so `answer` stays `""` forever. Save it:
+
+```python
+    answer = input("Are we there yet? ").strip().lower()
+```
+
+Adding `.strip().lower()` means `Yes` and ` YES ` count too.
+
+</details>
+
+**4. Write it.** Keep asking for the password until the player types `open sesame` (in any capitals, with or without extra spaces). Then print `The door opens.`
+
+<details><summary>Answer</summary>
+
+```python
+password = ""
+while password != "open sesame":
+    password = input("Password: ").strip().lower()
+print("The door opens.")
+```
+
+Your version might use `playing = True` and an `if` inside the loop, like the game does. That works just as well.
+
+</details>
+
 ## Steps
 
 Continue in the `adventure.py` you made in [Module 00](../00-setup/). Right now it prints `Hello, adventurer!` and stops. (Use `python3` instead of `python` on macOS or Linux.)
