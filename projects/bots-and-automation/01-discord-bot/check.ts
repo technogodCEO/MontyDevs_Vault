@@ -769,7 +769,7 @@ async function check00(): Promise<void> {
     }
   }
   for (const file of [...tsFiles(ROOT), path("package.json")]) {
-    if (file === THIS_FILE) continue;
+    if (file === THIS_FILE || relative(ROOT, file) === "check.ts") continue;  // the checker itself
     if (TOKEN_PATTERN.test(readText(file))) {
       fail(`${relative(ROOT, file)} seems to contain a bot token. Tokens belong only in .env.\n` +
         "If that file was ever shared or pushed, reset the token in the Developer Portal now.");
