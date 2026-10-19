@@ -8,34 +8,29 @@ Think of it as a friendlier, more guided take on [build-your-own-x](https://gith
 
 ### Course numbers
 
-Number projects like university courses, so a code shows topic, level and order at a glance: `TOPIC LNN`.
+Every course has a code, like a university course, that tells you its topic, level and place in the order: `TOPIC LNN`.
 
-- **TOPIC** is a short code per topic: `GAME`, `BOT`, `LANG`, and later things like `WEB` or `SYS`.
-- **L** is the level: 1 Beginner, 2 Intermediate, 3 Advanced.
-- **NN** orders courses within a topic and level, in steps (01, 05, 10, ...) to leave room for courses in between.
-- **01–49 are project courses, 50–99 are lesson-based courses** (for example `LANG 250: Grammars and Parsing Theory`), so traditional content-based courses can be added later. If that happens, the top-level `projects/` folder could become `courses/`.
+- **TOPIC** is the topic: `GAME`, `BOT` or `LANG` (more will come as topics are added).
+- **L** is the level: `1` Beginner, `2` Intermediate, `3` Advanced.
+- **NN** is the order within that topic and level. Lower numbers come first.
+- **01–49 are project courses**, where you build one thing from start to finish. **50–99 are reserved for lesson-based courses**, which teach a subject through lessons and exercises instead of a single project.
 
-With the current projects:
+| Code | Course | Level |
+| --- | --- | --- |
+| GAME 101 | Text Adventure | Beginner |
+| BOT 201 | Discord Bot | Intermediate |
+| LANG 201 | Tree-Walking Interpreter | Intermediate |
+| LANG 301 | Bytecode Virtual Machine | Advanced |
 
-| Code | Course |
-| --- | --- |
-| GAME 101 | Text Adventure |
-| BOT 201 | Discord Bot |
-| LANG 201 | Tree-Walking Interpreter |
-| LANG 301 | Bytecode Virtual Machine |
+### Prerequisites
 
-The change touches folder names (e.g. `lang-201-tree-walking-interpreter/`), the topic tables, the README "Anatomy" tree, the naming rules in CONTRIBUTING, and each project's title.
+Every course lists what you should know before you start, and links the course in the vault that teaches each skill. For example, LANG 301 links "recursion and tree structures" to LANG 201, and LANG 201 links "Python basics" to GAME 101. If a course feels too hard, follow its prerequisites back until you find where to start.
 
-### Prerequisite links
+Some "Stuck?" hints link the exact module that teaches an idea, such as "closures: LANG 201, Module 06", so you can review one lesson rather than a whole course.
 
-Let a learner work backwards when they're missing a skill. Prerequisites stay suggestions: every project still stands on its own.
+Prerequisites are suggestions, not requirements: every course stands on its own, and you can start anywhere you already know enough.
 
-- **Each project's Prerequisites section links the vault project that teaches each skill**, by course code. For example, LANG 301 lists "recursion and tree structures: LANG 201", and LANG 201 lists "Python basics: GAME 101".
-- **A skills map** (`SKILLS.md`): a table of skills (dictionaries, classes, async, pointers, testing, ...) and the projects that teach or need each one.
-- **Module-level pointers**: a "Stuck?" hint can point at the exact module that teaches an idea (for example, "closures: LANG 201, Module 06").
-- **CI checks the links**: every prerequisite points at a real project or module, and the links never form a loop.
-
-Best done together with course numbers.
+### Topics
 
 Projects are grouped by **topic**. Within each topic they're numbered from easiest to hardest. Pick any project that fits your interests and level: each one stands on its own.
 
