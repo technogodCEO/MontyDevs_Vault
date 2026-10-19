@@ -1,8 +1,8 @@
 # MontyDevs_Vault
 
-A collection of **project-based tutorials** for the MontyDevs CS club. Learn by building real things.
+A collection of **project-based tutorials** for MontyDevs & MontyCSC. Learn by building real things.
 
-Think of it as a friendlier, more guided take on [build-your-own-x](https://github.com/codecrafters-io/build-your-own-x). Every project is our own tutorial, split into small **modules** you work through one at a time. Where a great outside resource already exists, a module links to it rather than reinventing it.
+A more guided program inspired by [build-your-own-x](https://github.com/codecrafters-io/build-your-own-x). Every project is our own tutorial, split into small **modules** you work through one at a time. Where a great outside resource already exists, a module links to it rather than reinventing it.
 
 ## Structure
 
