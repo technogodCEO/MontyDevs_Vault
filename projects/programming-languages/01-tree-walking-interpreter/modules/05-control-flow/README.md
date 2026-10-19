@@ -173,7 +173,7 @@ After matching `IF`: expect `(`, parse an expression, expect `)`, parse a `state
 
 ## Challenges (optional)
 
-- A `for (init; condition; step) body` loop, turned into a `while` inside a block by the parser, so the interpreter doesn't change at all. (Add your own keyword for it, outside `KEYWORDS`, as with `const` in Module 04.)
+- A `for (init; condition; step) body` loop, turned into a `while` inside a block by the parser, so the interpreter doesn't change at all. (Add your own keyword for it in your code, outside `language.json`, as with `const` in Module 04.)
 - `break` and `continue`. Python exceptions are one way to jump out of a loop from deep inside its body.
 - A `--steps` flag that counts how many statements a program executed. Compare a loop to the same work done another way.
 

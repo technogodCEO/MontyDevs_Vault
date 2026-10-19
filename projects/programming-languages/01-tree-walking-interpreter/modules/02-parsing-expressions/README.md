@@ -112,6 +112,50 @@ Continue in your interpreter from Module 01.
 
 Parse exactly the grammar above. (Later modules will add rules above `equality` and below `unary`, without changing these.) `IDENTIFIER` is a variable name, like `x`. It can't be evaluated until Module 04, but it can be parsed now.
 
+Here's the parser's skeleton, with two of the precedence levels written out. Every other binary level follows the same pattern:
+
+```python
+class Parser:
+    def __init__(self, tokens):
+        self.tokens = tokens
+        self.current = 0
+
+    # --- Grammar rules: one method each ---
+    def term(self):
+        expr = self.factor()                     # the left side: a higher-precedence rule
+        while self.match("PLUS", "MINUS"):
+            operator = self.previous()           # the token match() just consumed
+            right = self.factor()
+            expr = Binary(expr, operator, right) # fold to the LEFT: left-associative
+        return expr
+
+    def factor(self):
+        expr = self.unary()
+        while self.match("STAR", "SLASH", "PERCENT"):
+            operator = self.previous()
+            right = self.unary()
+            expr = Binary(expr, operator, right)
+        return expr
+
+    # --- Helpers every rule uses ---
+    def peek(self):
+        return self.tokens[self.current]
+
+    def previous(self):
+        return self.tokens[self.current - 1]
+
+    def check(self, *types):
+        return self.peek().type in types
+
+    def match(self, *types):
+        if self.check(*types):
+            self.current += 1
+            return True
+        return False
+```
+
+Notice the `while` loop: it's what makes `10 - 4 - 3` group as `(- (- 10 4) 3)`. You write `expression`, `equality`, `comparison`, `unary` and `primary`, plus the node classes.
+
 ### 2. `--ast`
 
 `python glim.py --ast expression.glim` parses the **whole file as one expression** (comments and whitespace are fine) and prints its tree as one S-expression:
@@ -161,25 +205,15 @@ The checker runs `--ast` on expressions chosen to catch precedence and associati
 - **Numbers print as `10.0`**: print the value without the `.0` for whole numbers (`value.is_integer()` tells you), and as Python would print it otherwise.
 - **`-x * y` comes out as `(- (* x y))`**: `unary` should parse only one `primary` (or another `unary`) as its operand, not a whole `factor`.
 
-<details><summary>Hint 1: helpers that make parsing easy</summary>
+<details><summary>Hint 1: unary is the one rule that recurses on itself</summary>
 
-Give your parser a list of tokens and a position, plus four small methods: `peek()` returns the current token, `advance()` returns it and moves on, `check(*types)` says whether the current token is one of those types, and `match(*types)` is `check`, plus `advance` if it's true. Every grammar rule is then a few lines built from these.
+`unary` doesn't loop. If it matches `!` or `-`, it remembers the operator and calls `unary()` again for the operand (so `!!x` and `- -1` work), and builds a `Unary` node. Otherwise it returns `primary()`. Because it matched a token first, the recursion always makes progress.
 
 </details>
 
-<details><summary>Hint 2: one rule, written out</summary>
+<details><summary>Hint 2: one helper for four rules</summary>
 
-```python
-def term(self):
-    expr = self.factor()
-    while self.match("PLUS", "MINUS"):
-        operator = self.previous()      # the token match() just consumed
-        right = self.factor()
-        expr = Binary(expr, operator, right)
-    return expr
-```
-
-`equality`, `comparison` and `factor` are the same with different types and a different next rule. Some people write one helper, `binary(next_rule, *types)`, and use it for all four.
+`equality`, `comparison`, `term` and `factor` differ only in the token types and the next rule. A helper `binary(next_rule, *types)` that runs the `while` loop from the skeleton lets each of them be one line: `return self.binary(self.factor, "PLUS", "MINUS")`.
 
 </details>
 

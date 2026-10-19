@@ -1,10 +1,12 @@
-# Build Your Own Language
+# Tree-Walking Interpreter
 
 > Design a programming language of your own, then write the interpreter that runs it: a scanner, a parser and an evaluator, with variables, loops, functions and closures.
 
-**Difficulty:** Advanced
+**Difficulty:** Intermediate
 **Language:** Python. Its dictionaries, classes and recursion keep the interpreter short, so you can spend your time on how languages work rather than on memory management. Every idea here carries over to writing an interpreter in any language.
 **Estimated time:** 15–25 hours across all modules, plus 15 minutes of setup
+
+**Next step:** the Advanced project [Bytecode Virtual Machine](../02-bytecode-vm/) implements this *same* language spec again in C, compiled to bytecode and many times faster. Your `language.json` works in both, so you can carry your language over. Neither project requires the other.
 
 ## What you'll build
 
@@ -66,7 +68,7 @@ You'll also build two tools that real language implementers use: `--tokens`, whi
 
 The language's *structure* is fixed: C-style punctuation, braces for blocks, semicolons, and the behaviour described in each module. That's what the self-check tests. Everything else is up to you:
 
-- **The name, the file extension and the keywords.** The self-check reads your `KEYWORDS` and rewrites every test program in your spelling.
+- **The name, the file extension and the keywords.** They live in your `language.json`. The self-check reads it and rewrites every test program in your spelling.
 - **The design of the interpreter.** Classes or tuples for your tree, one file or several, a visitor or a big `if`. The self-check never looks inside: it runs your interpreter the way a user would and checks what comes out.
 - **The error messages.** They must mention the line number. Beyond that, make them as friendly (or as dramatic) as you like.
 - **Extra features.** Each module ends with challenges: `for` loops, `+=`, string escapes of your own, lists, a `break` statement. Anything extra is fine, as long as the core behaviour still matches.
@@ -76,7 +78,7 @@ The language's *structure* is fixed: C-style punctuation, braces for blocks, sem
 1. Start with [Module 00: Setup](modules/00-setup/). It gets Python ready, has you name your language, and sets up your project folder with [`check.py`](check.py).
 2. Work through the modules **in order**. Each one adds a stage to the same interpreter, and the later stages depend on the earlier ones.
 3. Each lesson starts with **Practice**: questions to think through, and a `practice_NN.py` file of small problems. Copy it into your project folder and test it with `python check.py practice 1` (using the module's number).
-4. Each lesson's **Steps** are a *spec*: they say exactly what your interpreter must do, and leave how to you. Read the whole spec before you start coding.
+4. Each lesson's **Steps** say exactly what your interpreter must do. They show code for the tricky parts (the shape of a class, the pattern a function follows) and leave the rest to you. Read all the steps before you start coding.
 5. At the end of each module, check your work from your project folder:
    ```sh
    python check.py 1      # use the module's number
@@ -106,5 +108,5 @@ Finished? Your language can already compute anything a computer can. Here's wher
 - **A resolver**: chapter 11 fixes a subtle closure bug and catches more mistakes before the program runs.
 - **A standard library**: file reading, string functions, `input()`, random numbers.
 - **Better errors**: report every syntax error in a file, not just the first, and show the line of code with a `^` under the problem.
-- **Speed**: Part III of *Crafting Interpreters* rebuilds the language as a bytecode virtual machine in C, which runs programs far faster.
+- **Speed**: the [Bytecode Virtual Machine](../02-bytecode-vm/) project rebuilds this language in C, as a compiler to bytecode and a virtual machine that runs it, with a garbage collector. Part III of *Crafting Interpreters* covers the same ground.
 - **Share it**: write a README with example programs, put it on GitHub, and get a friend to write a program in your language.

@@ -156,8 +156,36 @@ For call errors, the line is the line of the call. A runtime error *inside* a fu
 
 ### 5. Your turn: design decisions
 
-- **What's a function value?** A class (say `Function`) holding the declaration and the closure environment, with a `call(interpreter, arguments)` method. If your built-ins are a class with the same `call` method and an `arity`, the interpreter can call both the same way without caring which is which.
-- **How does `return` get out?** A `ReturnValue` exception, raised by the `return` statement and caught in `Function.call`, is the standard trick. Don't make it inherit from your runtime error class, or `main()` will report it as an error.
+- **What's a function value?** Two ideas carry the whole module, so here they are in code. A function value is the declaration plus the environment it was declared in (its **closure**). And `return` is an exception: the `return` statement raises it, however deep inside loops and blocks it is, and the call catches it:
+
+  ```python
+  class ReturnValue(Exception):
+      """Raised by `return`; carries the value back to the call."""
+      def __init__(self, value):
+          super().__init__()
+          self.value = value
+
+
+  class Function:
+      def __init__(self, declaration, closure):
+          self.declaration = declaration
+          self.closure = closure      # the environment where `fn` ran: NOT where it's called
+          self.arity = len(declaration.params)
+
+      def call(self, interpreter, arguments):
+          # A fresh environment for every call, so recursion and counters work,
+          # whose parent is the closure, so the body can see outer variables.
+          environment = Environment(self.closure)
+          for param, argument in zip(self.declaration.params, arguments):
+              environment.define(param.lexeme, argument)
+          try:
+              interpreter.run_block(self.declaration.body, environment)
+          except ReturnValue as returned:
+              return returned.value
+          return None                 # fell off the end: nil
+  ```
+
+  If your built-ins are a class with the same `call` method and an `arity`, the interpreter can call both the same way without caring which is which. Don't make `ReturnValue` inherit from your runtime error class, or `main()` will report every `return` as an error. Writing the `Return` statement, the call expression and the declaration is up to you.
 - **How do you spot a top-level `return`?** The parser can keep a count of how many function bodies it's inside.
 
 ## Make it yours
@@ -189,27 +217,15 @@ In `call()`: parse a `primary()`, then loop while the next token is `(`. Each ti
 
 </details>
 
-<details><summary>Hint 2: the function value</summary>
+<details><summary>Hint 2: executing a function declaration</summary>
 
-```python
-class Function:
-    def __init__(self, declaration, closure):
-        self.declaration = declaration
-        self.closure = closure
-        self.arity = len(declaration.params)
-
-    def call(self, interpreter, arguments):
-        environment = Environment(self.closure)
-        for param, argument in zip(self.declaration.params, arguments):
-            environment.define(param.lexeme, argument)
-        ...  # run the body in this environment, and catch the return
-```
+Executing `fn name(...) {...}` doesn't run the body. It makes `Function(declaration, self.environment)` (the environment *right now* becomes the closure) and defines it under its name in the current environment. Since the name is defined before any call can run, the body can call itself.
 
 </details>
 
 <details><summary>Hint 3: evaluating a call</summary>
 
-Evaluate the callee and every argument. If the callee isn't a `Function` or a built-in, raise a runtime error at the closing bracket's line. If `len(arguments)` isn't its `arity`, raise one too. Otherwise return `callee.call(self, arguments)`. In `Function.call`, wrap the body in `try`/`except ReturnValue as r: return r.value`, and return `None` after it.
+Evaluate the callee and every argument. If the callee isn't a `Function` or a built-in, raise a runtime error at the closing bracket's line. If `len(arguments)` isn't its `arity`, raise one too. Otherwise return `callee.call(self, arguments)`. The `Return` statement evaluates its value (or uses `None`) and raises `ReturnValue(value)`.
 
 </details>
 

@@ -152,7 +152,24 @@ Running with no file now runs each line you type as a program. If a line has an 
 
 ### 5. Your turn: design decisions
 
-- **How will your evaluator choose what to do for each node?** One big `if`/`elif` on the node type, a method on each node class (`node.evaluate()`), a dictionary from node type to function, or the **visitor pattern** from *Crafting Interpreters*. Pick one and stick with it.
+- **How will your evaluator choose what to do for each node?** One big `if`/`elif` on the node type, a method on each node class (`node.evaluate()`), a dictionary from node type to function, or the **visitor pattern** from *Crafting Interpreters*. Pick one and stick with it. The simplest is an `if` chain, which looks like this (change the names to match your node classes):
+
+  ```python
+  def evaluate(self, node):
+      if isinstance(node, Literal):
+          return node.value
+      if isinstance(node, Grouping):
+          return self.evaluate(node.inner)
+      if isinstance(node, Unary):
+          right = self.evaluate(node.operand)
+          if node.operator.type == "BANG":
+              return not truthy(right)          # YOUR truthiness, not Python's
+          ...
+      if isinstance(node, Binary):
+          left = self.evaluate(node.left)       # left first, then right
+          right = self.evaluate(node.right)
+          ...
+  ```
 - **How will a runtime error reach `main()`?** A `RuntimeError`-style exception carrying the token is a good fit. (Python already has a class called `RuntimeError`, so give yours a different name.)
 - **Where does the line between the parser and the interpreter go?** The parser shouldn't print anything or run anything. It hands back statements, and the interpreter runs them.
 
@@ -178,24 +195,9 @@ The checker runs programs and compares their output, checks that runtime errors 
 - **The output before a runtime error is missing**: are you collecting output and only printing at the end? Print as you go. (If you buffer anything yourself, flush before exiting.)
 - **A syntax error on line 2 still prints line 1's output**: parse the *whole* program into statements first, then run them.
 
-<details><summary>Hint 1: the evaluator's shape</summary>
+<details><summary>Hint 1: printing numbers</summary>
 
-```python
-def evaluate(self, node):
-    if isinstance(node, Literal):
-        return node.value
-    if isinstance(node, Grouping):
-        return self.evaluate(node.inner)
-    if isinstance(node, Unary):
-        right = self.evaluate(node.operand)
-        ...
-    if isinstance(node, Binary):
-        left = self.evaluate(node.left)
-        right = self.evaluate(node.right)
-        ...
-```
-
-Change the names to match your node classes.
+`value.is_integer()` tells you whether a float is whole. If it is, `str(int(value))` drops the `.0`; otherwise `str(value)` gives Python's shortest form. Check `True`, `False` and `None` first, and strings last.
 
 </details>
 

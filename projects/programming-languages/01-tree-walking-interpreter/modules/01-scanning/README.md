@@ -52,7 +52,21 @@ Always taking the longest token you can is called **maximal munch**. It's why `>
 
 ### Keywords are just reserved names
 
-The scanner reads `while` exactly the way it reads `count`: as a run of letters. Only *afterwards* does it look the word up in `KEYWORDS`. If the word is there, the token gets the keyword's type. If not, it's an `IDENTIFIER`. That one lookup is what lets you spell your keywords however you like.
+The scanner reads `while` exactly the way it reads `count`: as a run of letters. Only *afterwards* does it look the word up in a keyword dictionary. If the word is there, the token gets the keyword's type. If not, it's an `IDENTIFIER`. That one lookup is what lets you spell your keywords however you like.
+
+Your keywords are already written down in `language.json`, so the simplest scanner reads them from there. Then the spellings live in exactly one place:
+
+```python
+import json
+import os
+
+# language.json sits next to this file, wherever it's run from.
+HERE = os.path.dirname(os.path.abspath(__file__))
+with open(os.path.join(HERE, "language.json"), encoding="utf-8") as file:
+    KEYWORDS = json.load(file)["keywords"]   # {"let": "LET", "yeet": "RETURN", ...}
+```
+
+(You could type the same dictionary into your code instead, but then you have to keep the two in step. The self-check makes sure they agree.)
 
 ## Practice
 
@@ -119,7 +133,42 @@ There's a second bug: if `=` is the very last character, `source[i + 1]` is past
 
 ## Steps
 
-This is the spec your scanner must meet. How you structure the code is up to you: one file or several (a `lexer.py` is common), a class or functions.
+This is the spec your scanner must meet. How you structure the code is up to you: one file or several (a `lexer.py` is common), a class or functions. Here's one shape that works well, a class that keeps its place in the source:
+
+```python
+class Scanner:
+    def __init__(self, source):
+        self.source = source
+        self.tokens = []
+        self.start = 0      # where the token being scanned began
+        self.current = 0    # the next character to read
+        self.line = 1
+
+    def scan(self):
+        while not self.at_end():
+            self.start = self.current
+            self.scan_token()
+        self.tokens.append(Token("EOF", "", None, self.line))
+        return self.tokens
+
+    def scan_token(self):
+        c = self.advance()                  # read one character and move past it
+        if c == "(":
+            self.add("LEFT_PAREN")
+        elif c == "=":
+            self.add("EQUAL_EQUAL" if self.match("=") else "EQUAL")
+        elif c == "\n":
+            self.line += 1
+        # ... and every other kind of token
+        else:
+            raise ScanError(self.line, f"Unexpected character {c!r}.")
+
+    def add(self, type, value=None):
+        lexeme = self.source[self.start:self.current]
+        self.tokens.append(Token(type, lexeme, value, self.line))
+```
+
+`at_end()`, `advance()`, `match(expected)` (move past the next character only if it's `expected`) and `peek()` (look at the next character without moving) are a line or two each. Writing them, and the rest of `scan_token`, is your job.
 
 ### 1. Token types
 
@@ -134,7 +183,7 @@ This is the spec your scanner must meet. How you structure the code is up to you
 | `NUMBER` | digits, optionally followed by `.` and more digits: `7`, `3.14`, `007`. Not `.5` or `5.` |
 | `STRING` | `"` ... `"`, on one line |
 | `IDENTIFIER` | a letter or `_`, then any letters, digits or `_` |
-| the 12 keyword types | any identifier that's a key in your `KEYWORDS` |
+| the 12 keyword types | any identifier that's a spelling in your `language.json` |
 | `EOF` | added once, at the end of every token list |
 
 ### 2. What gets skipped
@@ -176,11 +225,11 @@ Running a file without `--tokens` and the REPL can stay as they were in Module 0
 
 - Where does the scanner live, and what does it return? A list of tokens is simplest.
 - How will you report errors? A custom exception (say, `ScanError` with a line number) that `main()` catches is cleaner than calling `sys.exit` deep inside the scanner. You'll reuse the idea in every later module.
-- Write the scanner so the keyword *spellings* only appear in `KEYWORDS`. Everything else should use the token *types*. Then renaming a keyword is a one-line change.
+- Write the scanner so the keyword *spellings* only appear in `language.json` (or one dictionary). Everything else should use the token *types*. Then renaming a keyword is a one-line change.
 
 ## Make it yours
 
-- **Spell your keywords.** Now's the moment: rename them in `KEYWORDS` and write a few programs to see how they read. Some learners keep the usual names. Others write `make x = 1;`, `when (...)`, `yeet result;`. Every later test program uses your spellings.
+- **Spell your keywords.** Now's the moment: rename them in `language.json` and write a few programs to see how they read. Some learners keep the usual names. Others write `make x = 1;`, `when (...)`, `yeet result;`. Every later test program uses your spellings.
 - **Write error messages people like reading.** `[line 3] Unexpected character '@'.` is fine. You could also show the line itself with a `^` under the character.
 - **Add more escapes** if you want, such as `\r` or `\0`. The spec only requires the four above.
 
@@ -200,15 +249,17 @@ The checker runs `--tokens` on programs covering every token type (written with 
 - **A string's escapes break `--tokens`**: the lexeme is the raw source, so `"a\nb"` prints exactly as written, backslash and all. Only the *value* has a real newline.
 - **The line number is wrong for errors near the end**: are you counting newlines inside comments? You should be.
 
-<details><summary>Hint 1: the shape of the loop</summary>
+- **`language.json says "yeet" is the RETURN keyword, but your scanner gave IDENTIFIER yeet`**: your scanner's keyword list and `language.json` disagree. Load the keywords from the file, as in the Concepts.
 
-Keep `start`, `current` and `line`. At the top of each loop, set `start = current`, read one character, and decide what to do with it. When a token is finished, its lexeme is `source[start:current]`.
+<details><summary>Hint 1: comments</summary>
+
+`/` is the one character with two very different meanings. If `match("/")` is true, a comment has started: keep calling `advance()` while `peek()` isn't a newline (and you're not at the end). Leave the newline itself for the main loop, so the line count goes up.
 
 </details>
 
-<details><summary>Hint 2: two-character tokens</summary>
+<details><summary>Hint 2: names and numbers</summary>
 
-Write a helper `match(expected)` that checks whether the *next* character is `expected`. If it is, move past it and return `True`. Then `=` becomes `"EQUAL_EQUAL" if match("=") else "EQUAL"`, and `/` checks `match("/")` to decide whether a comment has started.
+When `scan_token` sees a letter or `_`, keep advancing while `peek()` is a letter, digit or `_`. Then look the lexeme up: `KEYWORDS.get(text, "IDENTIFIER")`. Numbers are similar, but for the fraction you need to look *two* characters ahead: only consume the `.` if the character after it is a digit. A `peek_next()` helper does that.
 
 </details>
 

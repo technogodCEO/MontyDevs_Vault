@@ -145,13 +145,34 @@ Use one interpreter (and one global environment) for the whole REPL session, so 
 
 ### 5. Your turn: design decisions
 
-- **What does your `Environment` class look like?** The practice file is a good start. Will `get` take a name, or the whole token (so it can put the line in the error)?
+- **What does your `Environment` class look like?** Here's the skeleton. The bodies are the practice file's job, and then yours:
+
+  ```python
+  class Environment:
+      def __init__(self, parent=None):
+          self.values = {}        # the names declared in THIS scope
+          self.parent = parent    # the scope around this one (None for globals)
+
+      def define(self, name, value):
+          # Always in this scope: that's what makes shadowing work.
+          ...
+
+      def get(self, name_token):
+          # This scope, then the parent, then ITS parent... or a runtime error.
+          ...
+
+      def assign(self, name_token, value):
+          # Change the nearest existing variable. Never create one.
+          ...
+  ```
+
+  Passing the whole name *token* to `get` and `assign`, rather than the name, gives them the line number for the error.
 - **How does the interpreter know the current environment?** Most interpreters keep `self.environment` and swap it while running a block.
 - **Should `let x = x;` see the outer `x`?** With the order in the spec (evaluate, then define) it does. *Crafting Interpreters* makes it an error inside blocks. Both are reasonable. Ours is simpler.
 
 ## Make it yours
 
-- **Constants**: add a second declaration keyword (say `const`) for variables that can't be reassigned, with a runtime error if someone tries. (Your extra keyword just goes in your scanner. `KEYWORDS` can only use the twelve types from the spec, so keep the new keyword in its own set or dictionary.)
+- **Constants**: add a second declaration keyword (say `const`) for variables that can't be reassigned, with a runtime error if someone tries. (The self-check only allows the twelve types from the spec in `language.json`, so keep the new keyword in your own code, in a separate dictionary.)
 - **"Did you mean...?"**: when a variable is undefined, suggest a similar name that does exist. Python's `difflib.get_close_matches` does the hard part.
 
 ## Check your work
