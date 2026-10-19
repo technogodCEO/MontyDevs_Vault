@@ -4,39 +4,6 @@ Plans and ideas for the vault that aren't built yet. Anything here is open for d
 
 When an idea is done, remove it from this file.
 
-## Structure
-
-### Course numbers
-
-Number projects like university courses, so a code shows topic, level and order at a glance: `TOPIC LNN`.
-
-- **TOPIC** is a short code per topic: `GAME`, `BOT`, `LANG`, and later things like `WEB` or `SYS`.
-- **L** is the level: 1 Beginner, 2 Intermediate, 3 Advanced.
-- **NN** orders courses within a topic and level, in steps (01, 05, 10, ...) to leave room for courses in between.
-- **01–49 are project courses, 50–99 are lesson-based courses** (for example `LANG 250: Grammars and Parsing Theory`), so traditional content-based courses can be added later. If that happens, the top-level `projects/` folder could become `courses/`.
-
-With the current projects:
-
-| Code | Course |
-| --- | --- |
-| GAME 101 | Text Adventure |
-| BOT 201 | Discord Bot |
-| LANG 201 | Tree-Walking Interpreter |
-| LANG 301 | Bytecode Virtual Machine |
-
-The change touches folder names (e.g. `lang-201-tree-walking-interpreter/`), the topic tables, the README "Anatomy" tree, the naming rules in CONTRIBUTING, and each project's title.
-
-### Prerequisite links
-
-Let a learner work backwards when they're missing a skill. Prerequisites stay suggestions: every project still stands on its own.
-
-- **Each project's Prerequisites section links the vault project that teaches each skill**, by course code. For example, LANG 301 lists "recursion and tree structures: LANG 201", and LANG 201 lists "Python basics: GAME 101".
-- **A skills map** (`SKILLS.md`): a table of skills (dictionaries, classes, async, pointers, testing, ...) and the projects that teach or need each one.
-- **Module-level pointers**: a "Stuck?" hint can point at the exact module that teaches an idea (for example, "closures: LANG 201, Module 06").
-- **CI checks the links**: every prerequisite points at a real project or module, and the links never form a loop.
-
-Best done together with course numbers.
-
 ## New courses
 
 ### C compiler: native and LLVM back ends (Advanced)
