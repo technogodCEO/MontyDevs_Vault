@@ -1047,18 +1047,18 @@ async function check06(): Promise<void> {
   expect("winners() after votes for 0, 0, 1", poll.winners(), [0]);
   poll.vote("u1", 1);
   expect("counts() after the first voter changes to 1", poll.counts(), [1, 2, 0]);
-  poll.vote("u3", 0);
+  poll.vote("u4", 0);
   expect("winners() when two options tie", poll.winners(), [0, 1]);
   for (const index of [3, -1, 1.5]) {
     let threw = false;
     try {
-      poll.vote("u4", index);
+      poll.vote("u5", index);
     } catch {
       threw = true;
     }
-    if (!threw) fail(`poll.vote("u4", ${index}) should throw an error: there's no option ${index}.`);
+    if (!threw) fail(`poll.vote("u5", ${index}) should throw an error: there's no option ${index}.`);
   }
-  expect("counts() after the bad votes", poll.counts(), [2, 1, 0]);
+  expect("counts() after the bad votes", poll.counts(), [2, 2, 0]);
   passed("Poll counts votes, lets people change their vote, and finds winners");
 
   await findCommand("poll", "Module 06");
@@ -1267,7 +1267,7 @@ async function p03CooldownError(p: Practice) {
   }
   if (!(error instanceof UserError) || !(error instanceof Error)) fail("A CooldownError should also be a UserError (extend it).");
   if (error.message !== "Slow down! Try again in 5s.") fail(`new CooldownError(5).message is ${show(error.message)}, but should be "Slow down! Try again in 5s."`);
-  if (error.seconds !== 5) fail("new CooldownError(5).seconds should be 5.");
+  if ((error as Any).seconds !== 5) fail("new CooldownError(5).seconds should be 5.");
   if (error.name !== "CooldownError") fail(`new CooldownError(5).name is ${show(error.name)}, but should be "CooldownError".`);
 }
 
@@ -1521,7 +1521,7 @@ async function runOnePractice(module: number, index: number, file: string): Prom
 function practiceTypeErrors(file: string): Map<string, string[]> {
   const result = run([tscPath(), "--noEmit", "--strict", "--target", "es2022", "--module", "nodenext",
     "--moduleResolution", "nodenext", "--allowImportingTsExtensions", "--erasableSyntaxOnly",
-    "--verbatimModuleSyntax", "--skipLibCheck", "--types", "node", file]);
+    "--verbatimModuleSyntax", "--skipLibCheck", "--types", "node", "--ignoreConfig", file]);
   const byName = new Map<string, string[]>();
   if (result.code === 0) return byName;
   const lines = readText(file).split(/\r?\n/);
