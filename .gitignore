@@ -4,3 +4,12 @@ __pycache__/
 
 # Text Adventure save files
 savegame.json
+
+# Virtual environments, secrets and test caches
+.venv/
+venv/
+.env
+.pytest_cache/
+
+# Bot and interpreter scratch data
+*.db
