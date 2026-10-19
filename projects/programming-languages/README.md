@@ -6,4 +6,5 @@ Projects are listed from easiest to hardest. Each one stands on its own, so pick
 
 | # | Project | Difficulty | Language | Modules |
 | --- | --- | --- | --- | --- |
-| 01 | [Build Your Own Language](01-build-your-own-language/) | Advanced | Python | 6 |
+| 01 | [Tree-Walking Interpreter](01-tree-walking-interpreter/) | Intermediate | Python | 6 |
+| 02 | [Bytecode Virtual Machine](02-bytecode-vm/) | Advanced | C | 8 |

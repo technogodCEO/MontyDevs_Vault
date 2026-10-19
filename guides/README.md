@@ -5,6 +5,8 @@ Setup and tool guides shared by every project. If a project tells you to install
 | Guide | What it covers |
 | --- | --- |
 | [Installing Python](installing-python.md) | Getting Python 3 running on Windows, macOS or Linux |
+| [Installing Node.js](installing-node.md) | Getting Node.js and npm for the TypeScript projects |
+| [Installing a C compiler](installing-a-c-compiler.md) | gcc or clang on Linux and macOS, and WSL on Windows, for the C projects |
 | [Terminal basics](terminal-basics.md) | Opening a terminal, moving between folders, and running programs |
 | [Virtual environments](virtual-environments.md) | Giving each project its own Python packages with `venv` and `pip` |
 | [Setting up VS Code](vs-code.md) | A free code editor, set up for the projects in this vault |

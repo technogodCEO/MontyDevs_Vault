@@ -6,4 +6,4 @@ Projects are listed from easiest to hardest. Each one stands on its own, so pick
 
 | # | Project | Difficulty | Language | Modules |
 | --- | --- | --- | --- | --- |
-| 01 | [Discord Bot](01-discord-bot/) | Intermediate | Python | 6 |
+| 01 | [Discord Bot](01-discord-bot/) | Intermediate | TypeScript | 6 |

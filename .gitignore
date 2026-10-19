@@ -13,3 +13,6 @@ venv/
 
 # Bot and interpreter scratch data
 *.db
+
+# Node.js
+node_modules/
