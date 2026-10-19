@@ -131,6 +131,8 @@ python3 check.py 7
 
 ## Stuck?
 
+Unsure of what a closure must capture itself, rather than the C? [LANG 201, Module 06](../../../lang-201-tree-walking-interpreter/modules/06-functions/) explains it with a simpler interpreter.
+
 - **Two counters share a count**: you're capturing the function's *global* variable, or the same upvalue for both calls. Upvalues must point at the stack slot in the current call's window.
 - **The loop-capture program prints the same number twice**: you're not closing the upvalue at the end of each pass. `end_scope` must emit the close instruction for captured locals.
 - **`heap-use-after-free` or wrong values after a function returns**: on return, close every open upvalue at or above the frame's window *before* discarding the window.

@@ -2,7 +2,7 @@
 
 Everything your VM must do, in one place. Each module's lesson specifies its own part in more detail; this page is for looking things up. Programs here use the usual keyword spellings: yours come from `language.json`.
 
-If you did the [Tree-Walking Interpreter](../01-tree-walking-interpreter/), this is the same language, with two differences, both because a single-pass compiler decides where each variable lives as it reads the code:
+If you did the [LANG 201: Tree-Walking Interpreter](../lang-201-tree-walking-interpreter/), this is the same language, with two differences, both because a single-pass compiler decides where each variable lives as it reads the code:
 
 - Reading a **local** variable in its own initializer (`{ let x = x + 1; }`) is a compile error here.
 - There's no `--ast`. You get `--disassemble` instead.

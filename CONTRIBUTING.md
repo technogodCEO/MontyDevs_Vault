@@ -8,17 +8,17 @@ Thanks for helping build the vault! This guide explains how to add a new project
 2. **Pick a difficulty**: Beginner, Intermediate, or Advanced. See [difficulty levels](README.md#difficulty-levels).
 3. **Copy the template**:
    ```sh
-   cp -r templates/project projects/games/NN-your-project-name
+   cp -r templates/project projects/games/game-1NN-your-project-name
    ```
-   `NN` is a two-digit number that sets the project's place in the difficulty order for that topic (for example `03-text-adventure`). Renumber neighbours if you need to slot a project in between. Projects are standalone, so don't assume a learner has done any other project.
-4. **Fill in the project `README.md`**: goal, difficulty, language, prerequisites and the module list.
+   The folder name starts with the project's **course code** (see [Course codes](#course-codes)). Projects are standalone, so don't assume a learner has done any other project.
+4. **Fill in the project `README.md`**: its code and title, goal, difficulty, language, prerequisites (see [Prerequisites](#prerequisites)) and the module list.
 5. **Write Module 00** from `modules/00-setup/` (see [Module 00: Setup](#module-00-setup)).
 6. **Write the modules**: copy `modules/01-module-name/` once per module and rename each copy (`01-game-loop`, `02-rooms`, ...).
 7. **Write a self-check** (see below) and remove `CHECK_GOES_HERE.md`.
-8. **Add the project to its topic's `README.md`** in difficulty order, so people can find it.
+8. **Add the project to its topic's `README.md`** and to the course table in the main README, in code order, so people can find it.
 9. Open a pull request.
 
-[`games/01-text-adventure`](projects/games/01-text-adventure/) is a complete example of every part of this guide.
+[GAME 101: Text Adventure](projects/games/game-101-text-adventure/) is a complete example of every part of this guide.
 
 ## Learners work on their own
 
@@ -100,9 +100,29 @@ Each learner should end up with a project that's recognisably *theirs*.
 - Before opening a PR, test the check against working and unfinished code for each module. For Beginner projects: each module's `solution/` should pass its check, and the previous module's solution should not.
 - Test practice files the same way: the blank `practice_NN.py` should show every problem as `[TODO]` (or `[NOT YET]` for the bug fixes), and the example answers should all pass.
 
+## Course codes
+
+Every project has a code like `LANG 201`, made of:
+
+- **A topic code:** `GAME`, `BOT` or `LANG`. A new topic gets a new short code, listed in its topic README.
+- **The level digit:** `1` Beginner, `2` Intermediate, `3` Advanced. It must match the project's difficulty.
+- **Two digits for the order** within that topic and level. Leave gaps (`01`, `05`, `10`, ...) so later courses can slot in between without renumbering. `01`–`49` are project courses; `50`–`99` are kept for lesson-based courses.
+
+The code goes in the project's folder name (`lang-201-tree-walking-interpreter`) and its title (`# LANG 201: Tree-Walking Interpreter`). Pick a free code in your pull request, and say why it goes where it does.
+
+## Prerequisites
+
+A project's **Prerequisites** list says what a learner should know first, so someone who's stuck can work backwards:
+
+- For each skill, link the vault course that teaches it, by code: "comfortable with Python functions and dictionaries (GAME 101)".
+- Prerequisites are suggestions. A learner who already has the skill from elsewhere can start right away, so say what the skill is, not just which course to take.
+- In a "Stuck?" hint, you can link the exact module that teaches an idea: "closures are explained in [LANG 201, Module 06](...)".
+- Only link courses that are easier than or level with yours, so the links never go round in a circle.
+
 ## Naming conventions
 
-- Folders use `kebab-case` with a two-digit prefix that sets the order: `01-hello-world`.
+- Project folders are named `<code>-<name>` in `kebab-case`: `game-101-text-adventure`.
+- Module folders use a two-digit prefix that sets their order: `01-the-game-loop`.
 - Every project and every module has a `README.md`.
 - Example code goes in `solution/` inside each module (Beginner projects only).
 

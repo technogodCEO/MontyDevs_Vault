@@ -38,7 +38,7 @@ Pick three things:
 
 ## 5. Make your project folder
 
-Make a folder for your language **outside** the vault, and copy `check.py` into it from `MontyDevs_Vault/projects/programming-languages/01-tree-walking-interpreter/`:
+Make a folder for your language **outside** the vault, and copy `check.py` into it from `MontyDevs_Vault/projects/programming-languages/lang-201-tree-walking-interpreter/`:
 
 ```
 Code/
@@ -51,10 +51,10 @@ Code/
 
 ```sh
 # Windows (PowerShell), from the Code folder
-Copy-Item MontyDevs_Vault\projects\programming-languages\01-tree-walking-interpreter\check.py glim\
+Copy-Item MontyDevs_Vault\projects\programming-languages\lang-201-tree-walking-interpreter\check.py glim\
 
 # macOS / Linux
-cp MontyDevs_Vault/projects/programming-languages/01-tree-walking-interpreter/check.py glim/
+cp MontyDevs_Vault/projects/programming-languages/lang-201-tree-walking-interpreter/check.py glim/
 ```
 
 ## 6. Write `language.json`
@@ -87,7 +87,7 @@ This file describes your language, and the self-check reads it. Create `language
 
 Keep the usual spellings for now if you like: you'll choose your own in Module 01. Each spelling must look like a name (letters, digits and underscores) and can't be `clock`, `len` or `str`, which are built-in functions in Module 06.
 
-If you also do the [Bytecode Virtual Machine](../../../02-bytecode-vm/) project, the same `language.json` works there.
+If you also do the [LANG 301: Bytecode Virtual Machine](../../../lang-301-bytecode-vm/), the same `language.json` works there.
 
 ## 7. Write the main file
 

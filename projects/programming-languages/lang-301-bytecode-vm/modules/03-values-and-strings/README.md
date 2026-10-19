@@ -167,6 +167,8 @@ python3 check.py 3
 
 ## Stuck?
 
+Unsure of truthiness and printing values itself, rather than the C? [LANG 201, Module 03](../../../lang-201-tree-walking-interpreter/modules/03-evaluating-expressions/) explains it with a simpler interpreter.
+
 - **A leak report pointing at your string code**: some string is allocated but never put on the object list, or the list isn't walked when the VM is freed. Strings made by `+` are the usual culprits.
 - **`heap-buffer-overflow` in `strlen` or `printf`**: a string without its `'\0'`. Allocate `length + 1` and set the last byte.
 - **`runtime error: load of value 190, which is not a valid value for type 'bool'`** (UBSan): you read `as.boolean` from a value that isn't a boolean. Check the tag first.

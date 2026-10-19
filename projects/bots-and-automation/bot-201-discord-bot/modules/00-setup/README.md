@@ -197,14 +197,14 @@ No output means no errors. Run it often: VS Code shows errors in open files, but
 
 ## 11. Run the self-check
 
-Copy `check.ts` from `MontyDevs_Vault/projects/bots-and-automation/01-discord-bot/` into `my-bot` (drag it across, or from the `Code` folder):
+Copy `check.ts` from `MontyDevs_Vault/projects/bots-and-automation/bot-201-discord-bot/` into `my-bot` (drag it across, or from the `Code` folder):
 
 ```sh
 # Windows (PowerShell)
-Copy-Item MontyDevs_Vault\projects\bots-and-automation\01-discord-bot\check.ts my-bot\
+Copy-Item MontyDevs_Vault\projects\bots-and-automation\bot-201-discord-bot\check.ts my-bot\
 
 # macOS / Linux
-cp MontyDevs_Vault/projects/bots-and-automation/01-discord-bot/check.ts my-bot/
+cp MontyDevs_Vault/projects/bots-and-automation/bot-201-discord-bot/check.ts my-bot/
 ```
 
 Then, in `my-bot`:

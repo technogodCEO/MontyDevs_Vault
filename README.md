@@ -17,10 +17,10 @@ Every course has a code, like a university course, that tells you its topic, lev
 
 | Code | Course | Level |
 | --- | --- | --- |
-| GAME 101 | Text Adventure | Beginner |
-| BOT 201 | Discord Bot | Intermediate |
-| LANG 201 | Tree-Walking Interpreter | Intermediate |
-| LANG 301 | Bytecode Virtual Machine | Advanced |
+| GAME 101 | [Text Adventure](projects/games/game-101-text-adventure/) | Beginner |
+| BOT 201 | [Discord Bot](projects/bots-and-automation/bot-201-discord-bot/) | Intermediate |
+| LANG 201 | [Tree-Walking Interpreter](projects/programming-languages/lang-201-tree-walking-interpreter/) | Intermediate |
+| LANG 301 | [Bytecode Virtual Machine](projects/programming-languages/lang-301-bytecode-vm/) | Advanced |
 
 ### Prerequisites
 
@@ -61,8 +61,8 @@ Each project uses whichever language suits it best, and its README says which on
 ```
 projects/
 └── <topic>/
-    └── 01-project-name/
-        ├── README.md              # Overview: goal, language, prerequisites, module list
+    └── <code>-<project-name>/       # e.g. lang-201-tree-walking-interpreter
+        ├── README.md              # Overview: course code, goal, language, prerequisites, modules
         ├── check.py               # Self-check: tells you when a module is done
         └── modules/
             ├── 00-setup/

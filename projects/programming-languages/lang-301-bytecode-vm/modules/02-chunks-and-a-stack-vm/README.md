@@ -176,6 +176,8 @@ The self-check runs arithmetic programs (precedence, grouping, formatting), a pr
 
 ## Stuck?
 
+Unsure of precedence and associativity itself, rather than the C? [LANG 201, Module 02](../../../lang-201-tree-walking-interpreter/modules/02-parsing-expressions/) explains it with a simpler interpreter.
+
 - **`10 - 4 - 3` gives 9**: your `binary` parses its right operand at the same precedence as the operator, which makes it right-associative. Use one level higher.
 - **The sanitizer reports `stack-buffer-overflow` or `global-buffer-overflow` in the run loop**: the value stack over- or underflowed. Usually an instruction pops more than it should, or the compiler forgot a `POP` after an expression statement.
 - **Garbage output after the first few constants, or a crash at constant 256**: your constant index is one byte, so 256 wraps to 0.

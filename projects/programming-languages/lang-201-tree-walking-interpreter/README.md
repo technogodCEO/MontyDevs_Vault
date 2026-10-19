@@ -1,4 +1,4 @@
-# Tree-Walking Interpreter
+# LANG 201: Tree-Walking Interpreter
 
 > Design a programming language of your own, then write the interpreter that runs it: a scanner, a parser and an evaluator, with variables, loops, functions and closures.
 
@@ -6,7 +6,7 @@
 **Language:** Python. Its dictionaries, classes and recursion keep the interpreter short, so you can spend your time on how languages work rather than on memory management. Every idea here carries over to writing an interpreter in any language.
 **Estimated time:** 15–25 hours across all modules, plus 15 minutes of setup
 
-**Next step:** the Advanced project [Bytecode Virtual Machine](../02-bytecode-vm/) implements this *same* language spec again in C, compiled to bytecode and many times faster. Your `language.json` works in both, so you can carry your language over. Neither project requires the other.
+**Next step:** the Advanced course [LANG 301: Bytecode Virtual Machine](../lang-301-bytecode-vm/) implements this *same* language spec again in C, compiled to bytecode and many times faster. Your `language.json` works in both, so you can carry your language over. Neither project requires the other.
 
 ## What you'll build
 
@@ -61,6 +61,8 @@ You'll also build two tools that real language implementers use: `--tokens`, whi
 ## Prerequisites
 
 - You're comfortable in Python: classes, recursion, dictionaries, exceptions and reading a stack trace. If you've built a project or two with several functions and classes, you're ready.
+  - New to Python, or rusty on dictionaries, functions and loops? Do [GAME 101: Text Adventure](../../games/game-101-text-adventure/) first.
+  - Classes and exceptions are used from Module 01 on. Python's [classes tutorial](https://docs.python.org/3/tutorial/classes.html) and [errors tutorial](https://docs.python.org/3/tutorial/errors.html) cover what you need.
 - You don't need to have studied compilers or language theory. The modules introduce every idea you need.
 - A computer you can install software on. [Module 00](modules/00-setup/) covers setup.
 
@@ -108,5 +110,5 @@ Finished? Your language can already compute anything a computer can. Here's wher
 - **A resolver**: chapter 11 fixes a subtle closure bug and catches more mistakes before the program runs.
 - **A standard library**: file reading, string functions, `input()`, random numbers.
 - **Better errors**: report every syntax error in a file, not just the first, and show the line of code with a `^` under the problem.
-- **Speed**: the [Bytecode Virtual Machine](../02-bytecode-vm/) project rebuilds this language in C, as a compiler to bytecode and a virtual machine that runs it, with a garbage collector. Part III of *Crafting Interpreters* covers the same ground.
+- **Speed**: [LANG 301: Bytecode Virtual Machine](../lang-301-bytecode-vm/) rebuilds this language in C, as a compiler to bytecode and a virtual machine that runs it, with a garbage collector. Part III of *Crafting Interpreters* covers the same ground.
 - **Share it**: write a README with example programs, put it on GitHub, and get a friend to write a program in your language.

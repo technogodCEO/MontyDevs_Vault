@@ -28,7 +28,7 @@ Pick:
 - **A file extension** for its programs, like `.glim`: a dot, then letters or digits.
 - **Keyword spellings**, if you want your own now. You can also keep the usual ones until Module 01.
 
-If you did the [Tree-Walking Interpreter](../../../01-tree-walking-interpreter/), use your language from there. Its `language.json` works here as it is (this project ignores its `"main"` entry).
+If you did the [LANG 201: Tree-Walking Interpreter](../../../lang-201-tree-walking-interpreter/), use your language from there. Its `language.json` works here as it is (this project ignores its `"main"` entry).
 
 ## 4. Make your project folder
 
@@ -47,7 +47,7 @@ code/
 
 ```sh
 mkdir -p glim/src
-cp MontyDevs_Vault/projects/programming-languages/02-bytecode-vm/check.py glim/
+cp MontyDevs_Vault/projects/programming-languages/lang-301-bytecode-vm/check.py glim/
 ```
 
 ## 5. Write `language.json`

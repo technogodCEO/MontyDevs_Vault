@@ -161,6 +161,8 @@ python3 check.py 5
 
 ## Stuck?
 
+Unsure of scope and shadowing itself, rather than the C? [LANG 201, Module 04](../../../lang-201-tree-walking-interpreter/modules/04-variables-and-scope/) explains it with a simpler interpreter.
+
 - **`stack-buffer-overflow` or garbage values after a block**: the block's locals weren't popped at runtime, or popped twice. The number of `POP`s emitted when a scope ends must match the locals the compiler forgets.
 - **An `if` without an `else` leaves an extra value on the stack**: the condition's `POP` must happen on *both* paths. Look at the bytecode in the concepts section: one `POP` after `JUMP_IF_FALSE`, one at `else:`.
 - **A nested function's local gets the wrong value** (Module 06 and later): resolve names from the **end** of the locals list.

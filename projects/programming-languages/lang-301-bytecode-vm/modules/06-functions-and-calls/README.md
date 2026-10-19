@@ -138,6 +138,8 @@ python3 check.py 6
 
 ## Stuck?
 
+Unsure of how calls and `return` behave itself, rather than the C? [LANG 201, Module 06](../../../lang-201-tree-walking-interpreter/modules/06-functions/) explains it with a simpler interpreter.
+
 - **Locals inside functions read the wrong values**: the frame's window starts in the wrong place. It's `stack_top - arg_count - 1`, the slot holding the function.
 - **`return` from a function messes up the caller's stack**: on return, set `stack_top` back to the start of the returning frame's window *before* pushing the result.
 - **A crash or sanitizer report on deep recursion**: check the frame count before pushing a frame, not after.

@@ -1,4 +1,4 @@
-# Bytecode Virtual Machine
+# LANG 301: Bytecode Virtual Machine
 
 > Build a fast, real implementation of a programming language you design, in C: a single-pass compiler that turns source code into bytecode, and a virtual machine that runs it, with your own hash tables, closures and garbage collector.
 
@@ -73,7 +73,7 @@ You'll also build the tools VM writers rely on: `--tokens` shows how the scanner
 
 - You're comfortable programming in a C-like language (C, C++, Java, C#, JavaScript): loops, functions, structs or classes, recursion.
 - You know what a pointer is, or you're ready to learn fast. [Beej's Guide to C](https://beej.us/guide/bgc/) covers pointers, `malloc` and `free` well; read its chapters on pointers and manual memory allocation before Module 02 if they're new.
-- **Strongly recommended, not required:** the Intermediate project [Tree-Walking Interpreter](../01-tree-walking-interpreter/), which implements the same language in Python. Doing it first means you know *what* to build, and can focus here on *how* to build it fast. Your `language.json` from that project works here unchanged.
+- **Strongly recommended, not required:** [LANG 201: Tree-Walking Interpreter](../lang-201-tree-walking-interpreter/), which implements the same language in Python. Doing it first means you know *what* to build, and can focus here on *how* to build it fast. Your `language.json` from that project works here unchanged.
 - Linux, macOS, or Windows with **WSL**. [Module 00](modules/00-setup/) covers setup, and why native Windows isn't supported.
 
 ## Make it yours

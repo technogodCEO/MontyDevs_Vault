@@ -1,4 +1,4 @@
-# Text Adventure
+# GAME 101: Text Adventure
 
 > Build your own playable text adventure game: explore rooms, collect items, solve puzzles and save your progress, all in a world you design.
 

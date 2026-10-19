@@ -47,14 +47,14 @@ Code/
 
 Keeping your code separate means updating the vault never touches your work.
 
-Copy `check.py` from `MontyDevs_Vault/projects/games/01-text-adventure/` into `my-adventure/`. You can drag it across in your file explorer, or run this from the `Code` folder:
+Copy `check.py` from `MontyDevs_Vault/projects/games/game-101-text-adventure/` into `my-adventure/`. You can drag it across in your file explorer, or run this from the `Code` folder:
 
 ```sh
 # Windows (PowerShell)
-Copy-Item MontyDevs_Vault\projects\games\01-text-adventure\check.py my-adventure\
+Copy-Item MontyDevs_Vault\projects\games\game-101-text-adventure\check.py my-adventure\
 
 # macOS / Linux
-cp MontyDevs_Vault/projects/games/01-text-adventure/check.py my-adventure/
+cp MontyDevs_Vault/projects/games/game-101-text-adventure/check.py my-adventure/
 ```
 
 ## 5. Create `adventure.py`

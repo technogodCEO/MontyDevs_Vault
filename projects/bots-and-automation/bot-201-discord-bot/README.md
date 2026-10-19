@@ -1,4 +1,4 @@
-# Discord Bot
+# BOT 201: Discord Bot
 
 > Build your own Discord bot in TypeScript: slash commands, dice, embeds, an XP system backed by a real database, and polls with buttons, all tested and type-checked.
 
@@ -38,7 +38,7 @@ Under the hood you'll write the same structure real bots use: a command handler 
 
 ## Prerequisites
 
-- You're comfortable programming in at least one language: variables, functions, loops, arrays/lists and objects/dictionaries. If you've finished the [Text Adventure](../../games/01-text-adventure/), you're ready.
+- You're comfortable programming in at least one language: variables, functions, loops, arrays/lists and objects/dictionaries. If you've finished [GAME 101: Text Adventure](../../games/game-101-text-adventure/), you're ready.
 - You don't need to know JavaScript or TypeScript already. The lessons explain the TypeScript you need, but they move quickly. If the syntax feels strange, keep [javascript.info](https://javascript.info/) open: its first part covers the JavaScript that TypeScript is built on.
 - A Discord account. You'll make a private server to test your bot in, so you won't bother anyone.
 - Installing Node.js and the tools is covered in [Module 00](modules/00-setup/).
