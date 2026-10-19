@@ -233,7 +233,8 @@ async function getCommands(): Promise<LoadedCommand[]> {
     try {
       json = command.data.toJSON();
     } catch (error) {
-      fail(`In ${where}, discord.js rejected the command data:\n    ${(error as Error).message}`);
+      fail(`In ${where}, discord.js rejected the command data:\n    ${(error as Error).message.split("\n")[0]}\n` +
+        "Every command (and every option) needs setName() with a lowercase name and setDescription() with some text.");
     }
     commands.push({ file: where, json });
   }
@@ -329,6 +330,8 @@ interface Payload {
 
 let calls: Call[] = [];
 let escaped: string[] = [];
+// Replies discord.js would have refused, because the interaction was already answered.
+let refused: string[] = [];
 
 function recordCall(method: string, raw: unknown): Payload {
   const payload = normalize(raw);
@@ -386,7 +389,8 @@ function makeMessage(raw: unknown, author: Any = null): Any {
   });
 }
 
-function alreadyReplied(): Error {
+function alreadyReplied(method: string): Error {
+  refused.push(method);
   const error = new Error("The reply to this interaction has already been sent or deferred.");
   (error as Any).code = "InteractionAlreadyReplied";
   return error;
@@ -404,7 +408,7 @@ function notReplied(): Error {
 function responseMethods(state: Any) {
   return {
     async reply(raw: unknown) {
-      if (state.replied || state.deferred) throw alreadyReplied();
+      if (state.replied || state.deferred) throw alreadyReplied("reply");
       state.replied = true;
       const payload = recordCall("reply", raw);
       state.ephemeral = payload.ephemeral;
@@ -412,7 +416,7 @@ function responseMethods(state: Any) {
       return strict("response", { id: state.message.id, interaction: state, fetch: async () => state.message, resource: { message: state.message } });
     },
     async deferReply(raw: unknown) {
-      if (state.replied || state.deferred) throw alreadyReplied();
+      if (state.replied || state.deferred) throw alreadyReplied("deferReply");
       state.deferred = true;
       state.ephemeral = recordCall("deferReply", raw).ephemeral;
       return strict("response", { id: snowflake(), interaction: state });
@@ -514,13 +518,13 @@ function makeButtonInteraction(client: Any, user: Any, customId: string, message
     isButton: () => true, isMessageComponent: () => true,
   }, responseMethods(state));
   state.update = async (raw: unknown) => {
-    if (state.replied || state.deferred) throw alreadyReplied();
+    if (state.replied || state.deferred) throw alreadyReplied("update");
     state.replied = true;
     recordCall("update", raw);
     return strict("response", { id: snowflake(), interaction: state });
   };
   state.deferUpdate = async () => {
-    if (state.replied || state.deferred) throw alreadyReplied();
+    if (state.replied || state.deferred) throw alreadyReplied("deferUpdate");
     state.deferred = true;
     recordCall("deferUpdate", {});
     return strict("response", { id: snowflake(), interaction: state });
@@ -544,6 +548,7 @@ function makeIncomingMessage(client: Any, author: Any, content: string): Any {
 // What happened when the checker sent one interaction or message.
 interface Outcome {
   calls: Call[];
+  refused: string[];
   escaped: string[];
   unfaked: string[];
   logs: string[];
@@ -555,6 +560,7 @@ async function deliver(eventName: string, event: Any, waitForReply: boolean): Pr
   const client = await getBot();
   calls = [];
   escaped = [];
+  refused = [];
   unfaked = new Set();
   captured = [];
   const onRejection = (reason: unknown) => {
@@ -576,7 +582,7 @@ async function deliver(eventName: string, event: Any, waitForReply: boolean): Pr
   });
   process.off("unhandledRejection", onRejection);
   process.off("uncaughtException", onRejection);
-  return { calls, escaped: [...escaped], unfaked: [...unfaked], logs: [...captured] };
+  return { calls, refused: [...refused], escaped: [...escaped], unfaked: [...unfaked], logs: [...captured] };
 }
 
 function sleep(ms: number): Promise<void> {
@@ -635,8 +641,10 @@ function expectOneReply(outcome: Outcome & { label: string }): Payload {
       (outcome.logs.length ? `\n\nYour bot printed:\n${firstLines(outcome.logs.join("\n"), 8)}` : "") +
       unfakedNote(outcome));
   }
-  if (replies.length > 1 && replies[0]?.method === "reply" && replies[1]?.method === "reply") {
-    fail(`${outcome.label} called interaction.reply() twice. A second message needs followUp().`);
+  if (outcome.refused.length > 0) {
+    fail(`${outcome.label} answered the interaction, then called ${outcome.refused[0]}() again. ` +
+      "discord.js refuses that with \"The reply to this interaction has already been sent or deferred\". " +
+      "Send a second message with followUp(), or change the first with editReply().");
   }
   return replies[0]!.payload;
 }
@@ -1093,6 +1101,7 @@ async function check06(): Promise<void> {
   const second = await click(USER_B, ids[1]);
   for (const [who, outcome] of [["The first click", first], ["The second click", second]] as const) {
     if (outcome.escaped.length > 0) fail(`${who} on a poll button crashed:\n${describeEscape(outcome)}${unfakedNote(outcome)}`);
+    if (outcome.refused.length > 0) fail(`${who} on a poll button answered, then called ${outcome.refused[0]}() again. Answer each click once.`);
     if (visible(outcome).length === 0 && !outcome.calls.some((c) => c.method === "deferUpdate")) {
       fail(`${who} on a poll button got no response. Route button clicks in your interactionCreate listener ` +
         "(interaction.isButton()) and answer with interaction.update() or interaction.reply()." + unfakedNote(outcome));
@@ -1556,7 +1565,11 @@ function runPractice(module: number, file: string): void {
       try {
         outcome = JSON.parse(result.stdout.trim().split("\n").pop() ?? "");
       } catch {
-        outcome.message = firstLines(result.stderr.trim(), 6);
+        // Node exits with code 13 when it's left waiting on a promise that
+        // nothing will ever resolve.
+        outcome.message = result.status === 13
+          ? "It never finished: it's waiting on a promise that never resolves or rejects."
+          : firstLines(result.stderr.trim() || `It stopped early (exit code ${result.status}).`, 6);
       }
     }
     const errors = [...problem.functions.flatMap((name) => typeErrors.get(name) ?? []), ...(typeErrors.get("*") ?? [])];
