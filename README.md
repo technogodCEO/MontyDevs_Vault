@@ -67,7 +67,7 @@ New to coding tools? Start with the [guides](guides/): installing Python, using 
 
 ## Contributing
 
-Want to write a tutorial or improve one? See [CONTRIBUTING.md](CONTRIBUTING.md). A ready-to-copy skeleton lives in [`templates/project/`](templates/project/).
+Want to write a tutorial or improve one? See [CONTRIBUTING.md](CONTRIBUTING.md). A ready-to-copy skeleton lives in [`templates/project/`](templates/project/). Looking for something to work on? See [IDEAS.md](IDEAS.md).
 
 ## License
 
