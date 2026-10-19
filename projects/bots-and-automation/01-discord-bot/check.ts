@@ -20,7 +20,7 @@
  */
 
 import { spawnSync } from "node:child_process";
-import { existsSync, mkdtempSync, readdirSync, readFileSync, rmSync, statSync } from "node:fs";
+import { existsSync, mkdtempSync, readdirSync, readFileSync, rmSync, statSync, writeFileSync } from "node:fs";
 import { createRequire } from "node:module";
 import { tmpdir } from "node:os";
 import { basename, join, relative, resolve } from "node:path";
@@ -31,7 +31,7 @@ const NODE_MIN = [22, 18];
 // How long (ms) a command gets to reply before we decide it never will.
 const REPLY_WAIT = 3000;
 // Whole-check and per-practice-problem time limits (ms).
-const CHECK_TIMEOUT = 120_000;
+const CHECK_TIMEOUT = 60_000;
 const PRACTICE_TIMEOUT = 5000;
 const THIS_FILE = fileURLToPath(import.meta.url);
 
@@ -51,6 +51,18 @@ function say(text = ""): void {
 
 function passed(text: string): void {
   say(`  - ${text}`);
+}
+
+// Notes what the checker is doing right now, in a file the parent process
+// reads if the check gets stuck (an endless loop freezes this process, so it
+// couldn't report anything itself).
+const STATUS_FILE = "check-status.txt";
+function doing(what: string): void {
+  try {
+    writeFileSync(STATUS_FILE, what);
+  } catch {
+    // Not being able to note it is harmless.
+  }
 }
 
 // ---------------------------------------------------------------------------
@@ -170,11 +182,13 @@ async function getBot(): Promise<Any> {
   const { Client } = loadDiscord();
   const file = path("src", "bot.ts");
   if (!existsSync(file)) fail("Couldn't find src/bot.ts. Module 00 sets it up.");
+  doing("loading src/bot.ts");
   const mod = await importFile(file);
   if (typeof mod.createBot !== "function") {
     fail("src/bot.ts should export a function called createBot().");
   }
   let client: Any;
+  doing("calling createBot()");
   try {
     client = await withQuietConsole(() => withTimeout(Promise.resolve(mod.createBot()), 10_000, "createBot() took more than 10 seconds."));
   } catch (error) {
@@ -218,6 +232,7 @@ async function getCommands(): Promise<LoadedCommand[]> {
     : [];
   const commands: LoadedCommand[] = [];
   for (const file of files) {
+    doing(`loading src/commands/${basename(file)}`);
     const mod = await importFile(file);
     const command = mod.default ?? mod.command ?? mod;
     const where = `src/commands/${basename(file)}`;
@@ -612,13 +627,15 @@ async function invoke(inv: Invocation): Promise<Outcome & { label: string }> {
   const client = await getBot();
   const user = inv.user ?? USER_A;
   const values = inv.values ?? {};
-  const interaction = makeCommandInteraction(client, user, inv.name, values);
-  const outcome = await deliver(loadDiscord().Events.InteractionCreate, interaction, true);
   const shown = Object.entries(values)
     .filter(([key]) => !key.startsWith("__"))
     .map(([key, value]) => `${key}:${typeof value === "object" ? "@" + (value as Any).displayName : value}`);
   const sub = values.__subcommand ? ` ${values.__subcommand}` : "";
-  return { ...outcome, label: `/${inv.name}${sub}${shown.length ? " " + shown.join(" ") : ""}` };
+  const label = `/${inv.name}${sub}${shown.length ? " " + shown.join(" ") : ""}`;
+  doing(`running ${label}`);
+  const interaction = makeCommandInteraction(client, user, inv.name, values);
+  const outcome = await deliver(loadDiscord().Events.InteractionCreate, interaction, true);
+  return { ...outcome, label };
 }
 
 // The replies a user would actually see (not the "thinking..." of a defer).
@@ -923,8 +940,9 @@ async function check03(): Promise<void> {
 function runTests(minimum: number): number {
   const files = tsFiles(path("tests")).filter((f) => f.endsWith(".test.ts"));
   if (files.length === 0) fail("Couldn't find any tests. Put them in tests/, in files ending in .test.ts.");
-  const result = run(["--test", "--test-reporter=tap"], { timeout: 90_000 });
-  if (result.timedOut) fail("Your tests were still running after 90 seconds. Is one of them waiting forever?");
+  doing("running your tests");
+  const result = run(["--test", "--test-reporter=tap"], { timeout: 40_000 });
+  if (result.timedOut) fail("Your tests were still running after 40 seconds. Is one of them waiting forever?");
   // The TAP report ends with lines like "# pass 7" and "# fail 0".
   const count = (label: string) => Number(new RegExp(`^# ${label} (\\d+)`, "m").exec(result.output)?.[1] ?? 0);
   const pass = count("pass");
@@ -1018,6 +1036,7 @@ async function check05(): Promise<void> {
   await findCommand("rank", "Module 05");
   await findCommand("leaderboard", "Module 05");
   const before = masked(expectOneReply(await invoke({ name: "rank", user: USER_A })));
+  doing("sending a message to your messageCreate listener");
   const human = await deliver(Events.MessageCreate, makeIncomingMessage(client, USER_A, "hello everyone"), false);
   if (human.escaped.length > 0) fail("Your messageCreate listener crashed:\n" + describeEscape(human) + unfakedNote(human));
   for (let i = 0; i < 3; i++) await deliver(Events.MessageCreate, makeIncomingMessage(client, USER_BOT, "beep"), false);
@@ -1095,8 +1114,10 @@ async function check06(): Promise<void> {
   passed("/poll refuses fewer than 2 or more than 5 options");
 
   const pollMessage = makeMessage({ embeds: message.embeds, components: message.components, content: message.content });
-  const click = async (user: Any, customId: string) =>
-    deliver(Events.InteractionCreate, makeButtonInteraction(client, user, customId, pollMessage), true);
+  const click = async (user: Any, customId: string) => {
+    doing(`clicking the button ${customId}`);
+    return deliver(Events.InteractionCreate, makeButtonInteraction(client, user, customId, pollMessage), true);
+  };
   const first = await click(USER_A, ids[0]);
   const second = await click(USER_B, ids[1]);
   for (const [who, outcome] of [["The first click", first], ["The second click", second]] as const) {
@@ -1661,9 +1682,11 @@ async function main(): Promise<void> {
   const result = spawnSync(process.execPath, ["--no-warnings", THIS_FILE, "--run", String(module), ROOT], {
     cwd: scratch, stdio: "inherit", timeout: CHECK_TIMEOUT, env: { ...process.env, DISCORD_TOKEN: "" },
   });
+  const status = existsSync(join(scratch, STATUS_FILE)) ? readText(join(scratch, STATUS_FILE)) : "";
   rmSync(scratch, { recursive: true, force: true });
   if (result.error && (result.error as NodeJS.ErrnoException).code === "ETIMEDOUT") {
-    say(`\n[NOT YET] The check was still running after ${CHECK_TIMEOUT / 1000} seconds. Is something in your bot waiting forever?`);
+    say(`\n[NOT YET] The check got stuck${status ? " while " + status : ""}, and was stopped after ${CHECK_TIMEOUT / 1000} seconds.\n` +
+      "Is there a loop that never ends?");
     process.exit(1);
   }
   process.exit(result.status ?? 1);
