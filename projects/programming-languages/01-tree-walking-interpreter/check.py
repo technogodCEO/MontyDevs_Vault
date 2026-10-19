@@ -1,5 +1,5 @@
 """
-Self-check for the Build Your Own Language project.
+Self-check for the Tree-Walking Interpreter project.
 
 Run it from your language's project folder (the one with language.json), and
 give it the module number you just finished:
@@ -18,8 +18,9 @@ It also tests the practice problems in each lesson:
 
 This is an acceptance test: it only runs your interpreter the way a user
 would (python yourlang.py file) and compares what comes out with the spec in
-the lessons. How you write the interpreter is up to you. It reads your
-KEYWORDS, so every test program is written in YOUR keyword spellings.
+the lessons. How you write the interpreter is up to you. It reads the
+keywords from your language.json, so every test program is written in YOUR
+keyword spellings.
 """
 
 import ast
@@ -73,27 +74,6 @@ def indent(text, by="      "):
 # ---------------------------------------------------------------------------
 # Reading the learner's project
 # ---------------------------------------------------------------------------
-# This little program runs in a separate Python process. It loads the main
-# file WITHOUT running it, and prints the KEYWORDS dictionary as JSON.
-LOADER = r"""
-import contextlib, importlib.util, io, json, os, sys
-path = sys.argv[1]
-sys.path.insert(0, os.path.dirname(path))   # so `import lexer` etc. work
-printed = io.StringIO()
-with contextlib.redirect_stdout(printed):
-    spec = importlib.util.spec_from_file_location("language_main", path)
-    module = importlib.util.module_from_spec(spec)
-    spec.loader.exec_module(module)
-keywords = getattr(module, "KEYWORDS", None)
-if isinstance(keywords, dict):
-    # Values may be strings or Enum members; either way, use the name.
-    keywords = {str(k): str(getattr(v, "name", v)) for k, v in keywords.items()}
-else:
-    keywords = repr(keywords)
-print("\n" + json.dumps({"printed": printed.getvalue(), "keywords": keywords}))
-"""
-
-
 class Language:
     """Everything the checker knows about the learner's language."""
 
@@ -129,38 +109,18 @@ class Language:
         if self.extension.lower() == ".py":
             fail('Pick an "extension" of your own. ".py" is taken by Python.')
 
-        self.load_keywords()
+        self.load_keywords(config.get("keywords"))
 
-    def load_keywords(self):
-        """Read KEYWORDS from the main file, and work out each keyword's spelling."""
-        try:
-            result = subprocess.run(
-                [sys.executable, "-B", "-c", LOADER, self.main],
-                stdin=subprocess.DEVNULL, capture_output=True, text=True,
-                encoding="utf-8", errors="replace", timeout=TIMEOUT, cwd=self.folder,
-            )
-        except subprocess.TimeoutExpired:
-            fail("Loading your main file took too long. Make sure your interpreter only "
-                 "starts inside the  if __name__ == \"__main__\":  block at the bottom.")
-        if result.returncode != 0:
-            fail(f"Python couldn't load {os.path.basename(self.main)}:\n\n{result.stderr}")
-        data = json.loads(result.stdout.strip().splitlines()[-1])
-        if data["printed"].strip():
-            fail(f"{os.path.basename(self.main)} printed something as soon as it was loaded:\n"
-                 f"{indent(data['printed'])}\n"
-                 "Keep the\n    if __name__ == \"__main__\":\n        main()\n"
-                 "lines at the bottom, and put the code that runs things inside main().")
-
-        keywords = data["keywords"]
-        if not isinstance(keywords, dict):
-            fail("Couldn't find a dictionary called KEYWORDS in your main file. It maps "
-                 'each spelling to its token type, like {"let": "LET", ...}. '
-                 "(It's fine to import it from another file.)")
+    def load_keywords(self, keywords):
+        """Check the "keywords" from language.json, and note each keyword's spelling."""
+        if not isinstance(keywords, dict) or not keywords:
+            fail('language.json needs "keywords": an object that maps each spelling to '
+                 'its token type, like {"let": "LET", "fn": "FN", ...}.')
         self.spell = {}
         for word, kind in keywords.items():
             if kind not in KEYWORD_TYPES:
-                fail(f'KEYWORDS maps "{word}" to {kind!r}, which isn\'t a keyword type. '
-                     f"The types are: {', '.join(KEYWORD_TYPES)}.")
+                fail(f'language.json maps the keyword "{word}" to {kind!r}, which isn\'t a '
+                     f"keyword type. The types are: {', '.join(KEYWORD_TYPES)}.")
             if not IDENTIFIER.match(word):
                 fail(f'The keyword "{word}" must look like a name: letters, digits and '
                      "underscores, not starting with a digit.")
@@ -170,7 +130,9 @@ class Language:
             self.spell.setdefault(kind, word)  # the first spelling wins
         missing = [kind for kind in KEYWORD_TYPES if kind not in self.spell]
         if missing:
-            fail(f"KEYWORDS needs a spelling for every keyword type. Missing: {', '.join(missing)}.")
+            fail(f'"keywords" in language.json needs a spelling for every keyword type. '
+                 f"Missing: {', '.join(missing)}.")
+        self.keywords = dict(keywords)
         self.spellings = set(keywords)
 
     # --- Translating the checker's test programs into the learner's spelling ---
@@ -394,7 +356,7 @@ def check_00(lang, target):
     print(f"  - Python {sys.version.split()[0]} works")
     print(f"  - language.json describes {lang.name} ({lang.extension} files, "
           f"run by {os.path.basename(lang.main)})")
-    print("  - KEYWORDS has a spelling for every keyword: "
+    print("  - language.json has a spelling for every keyword: "
           + " ".join(lang.spell[k] for k in KEYWORD_TYPES))
 
     # An empty program is fine in every module.
@@ -465,6 +427,19 @@ def check_01(lang, target):
     ]
     for source, tokens in cases:
         expect_tokens(lang, source, tokens)
+
+    # Your scanner must agree with language.json about every keyword,
+    # including any extra spellings that share a type.
+    words = list(lang.keywords)
+    code, out, err = lang.run(" ".join(words), "--tokens")
+    got = lines_of(out)
+    for number, word in enumerate(words):
+        want = f"{lang.keywords[word]} {word}"
+        line = got[number] if number < len(got) else "(missing)"
+        if code != 0 or line != want:
+            fail(f'language.json says "{word}" is the {lang.keywords[word]} keyword, but '
+                 f"your scanner gave  {line}  for it.\n"
+                 "Load the keywords from language.json, or keep the two lists the same.")
     print(f"  - --tokens scans {len(cases)} programs correctly: symbols, keywords, "
           "names, numbers, strings and comments")
 
