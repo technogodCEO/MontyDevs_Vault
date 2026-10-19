@@ -53,20 +53,6 @@ One large course that compiles **a subset of C** to native code, the way gcc doe
 - **Outside resources:** Nora Sandler's *Writing a C Compiler*, Rui Ueyama's chibicc, and the LLVM Language Reference.
 - **Place:** after LANG 301 (e.g. `LANG 310`), recommending LANG 201 or 301 for the front end.
 
-## Open source
-
-The vault started with the MontyDevs CS club, and is meant to grow into an open-source project anyone can use and contribute to.
-
-- **CI on pull requests:**
-  - run each Beginner solution against its module's check
-  - make sure blank practice files show `[TODO]`
-  - check relative links
-- **Reference solutions for Intermediate and Advanced projects**, kept somewhere private, so CI can test their checkers without publishing answers.
-- **Community files:** a code of conduct (Contributor Covenant), issue templates ("Propose a project" first), `good first issue` labels, CODEOWNERS, and GitHub Discussions.
-- **License for lessons:** decide whether the written lessons stay MIT or move to CC BY-SA 4.0, with code staying MIT.
-- **Shared checker library:** the checkers repeat code (running programs, the practice runner, ASCII results). Pull it into one shared module once the patterns settle.
-- **Wording:** "started by the MontyDevs CS club, open to everyone" instead of club-only wording.
-
 ## Reading experience
 
 ### Website
