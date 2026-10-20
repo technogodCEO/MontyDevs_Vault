@@ -4,6 +4,7 @@ Find out how code actually runs by building interpreters and compilers yourself.
 
 Projects are listed from easiest to hardest. Each one stands on its own, so pick any that matches your level. See [difficulty levels](../../README.md#difficulty-levels).
 
-| # | Project | Difficulty | Language | Modules |
+| Code | Course | Difficulty | Language | Modules |
 | --- | --- | --- | --- | --- |
-| | _No projects yet. See [CONTRIBUTING.md](../../CONTRIBUTING.md) to add one._ | | | |
+| LANG 201 | [Tree-Walking Interpreter](lang-201-tree-walking-interpreter/) | Intermediate | Python | 6 |
+| LANG 301 | [Bytecode Virtual Machine](lang-301-bytecode-vm/) | Advanced | C | 8 |

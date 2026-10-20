@@ -4,7 +4,33 @@ A collection of **project-based tutorials** for MontyDevs & MontyCSC. Learn by b
 
 A more guided program inspired by [build-your-own-x](https://github.com/codecrafters-io/build-your-own-x). Every project is our own tutorial, split into small **modules** you work through one at a time. Where a great outside resource already exists, a module links to it rather than reinventing it.
 
-## How it's organized
+## Structure
+
+### Course numbers
+
+Every course has a code, like a university course, that tells you its topic, level and place in the order: `TOPIC LNN`.
+
+- **TOPIC** is the topic: `GAME`, `BOT` or `LANG` (more will come as topics are added).
+- **L** is the level: `1` Beginner, `2` Intermediate, `3` Advanced.
+- **NN** is the order within that topic and level. Lower numbers come first.
+- **01–49 are project courses**, where you build one thing from start to finish. **50–99 are reserved for lesson-based courses**, which teach a subject through lessons and exercises instead of a single project.
+
+| Code | Course | Level |
+| --- | --- | --- |
+| GAME 101 | [Text Adventure](projects/games/game-101-text-adventure/) | Beginner |
+| BOT 201 | [Discord Bot](projects/bots-and-automation/bot-201-discord-bot/) | Intermediate |
+| LANG 201 | [Tree-Walking Interpreter](projects/programming-languages/lang-201-tree-walking-interpreter/) | Intermediate |
+| LANG 301 | [Bytecode Virtual Machine](projects/programming-languages/lang-301-bytecode-vm/) | Advanced |
+
+### Prerequisites
+
+Every course lists what you should know before you start, and links the course in the vault that teaches each skill. For example, LANG 301 links "recursion and tree structures" to LANG 201, and LANG 201 links "Python basics" to GAME 101. If a course feels too hard, follow its prerequisites back until you find where to start.
+
+Some "Stuck?" hints link the exact module that teaches an idea, such as "closures: LANG 201, Module 06", so you can review one lesson rather than a whole course.
+
+Prerequisites are suggestions, not requirements: every course stands on its own, and you can start anywhere you already know enough.
+
+### Topics
 
 Projects are grouped by **topic**. Within each topic they're numbered from easiest to hardest. Pick any project that fits your interests and level: each one stands on its own.
 
@@ -30,13 +56,13 @@ Every project is labelled with one of three levels:
 
 Each project uses whichever language suits it best, and its README says which one.
 
-## Anatomy of a project
+### Anatomy of a project
 
 ```
 projects/
 └── <topic>/
-    └── 01-project-name/
-        ├── README.md              # Overview: goal, language, prerequisites, module list
+    └── <code>-<project-name>/       # e.g. lang-201-tree-walking-interpreter
+        ├── README.md              # Overview: course code, goal, language, prerequisites, modules
         ├── check.py               # Self-check: tells you when a module is done
         └── modules/
             ├── 00-setup/
@@ -67,7 +93,7 @@ New to coding tools? Start with the [guides](guides/): installing Python, using 
 
 ## Contributing
 
-Want to write a tutorial or improve one? See [CONTRIBUTING.md](CONTRIBUTING.md). A ready-to-copy skeleton lives in [`templates/project/`](templates/project/).
+Want to write a tutorial or improve one? See [CONTRIBUTING.md](CONTRIBUTING.md). A ready-to-copy skeleton lives in [`templates/project/`](templates/project/). Looking for something to work on? See [IDEAS.md](IDEAS.md).
 
 ## License
 
